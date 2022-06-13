@@ -1191,8 +1191,6 @@ to access the NanoDLP interface on wifi via: XXX.XXX.12.200
 
 <img src="images/assembled_backplate_side.jpg" width="1000"/>
 
-<img src="images/assembled_backplate_back.jpg" width="1000"/>
-
 ### Projector Backplate Electronics Assembly <a name="Projector-Backplate-Electronics-Assembly"></a>
 * Raspberry Pi Model 3B+.
     * 5V/2.5A black power cable connects to Raspberry Pi Model 3B+.
