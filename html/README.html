@@ -1,0 +1,1960 @@
+<p><img src="images/md_title.png" width="1000"/></p>
+
+<h3>Directory</h3>
+
+<ul>
+<li><a href="#Notes">Notes</a>
+<ul>
+<li><a href="#Troubleshooting">Troubleshooting</a></li>
+<li><a href="#G-code">G-code</a></li>
+<li><a href="#Movement">Movement</a></li>
+<li><a href="#Resin-Profile-Settings">Resin Profile Settings</a></li>
+<li><a href="#General-Notes">General Notes</a></li>
+<li><a href="#Dimensions">Dimensions</a></li>
+</ul></li>
+<li><a href="#Parts">Parts</a>
+<ul>
+<li><a href="#Electronics">Electronics</a></li>
+<li><a href="#Motors">Motors</a></li>
+<li><a href="#Projector">Projector</a></li>
+<li><a href="#Resin-Vat">Resin Vat</a></li>
+<li><a href="#Linear-Movement">Linear Movement</a></li>
+<li><a href="#Frame">Frame</a></li>
+<li><a href="#Exterior-Cover">Exterior Cover</a></li>
+<li><a href="#Bolts">Bolts</a></li>
+</ul></li>
+<li><a href="#Software-Setup">Software Setup</a>
+<ul>
+<li><a href="#Raspberry-Pi-Setup">Raspberry Pi Setup</a></li>
+<li><a href="#Arduino-and-RAMPS-Board-Setup">Arduino and RAMPS Board Setup</a></li>
+<li><a href="#Stepper-Motor-Setup">Stepper Motor Setup</a></li>
+<li><a href="#Servo-Motor-Setup">Servo Motor Setup</a></li>
+<li><a href="#Arduino-and-RAMPS-Software-Install">Arduino and RAMPS Software Install</a></li>
+<li><a href="#Verify-RAMPS-Functionality">Verify RAMPS Functionality</a></li>
+<li><a href="#Install-and-Launch-NanoDLP">Install and Launch NanoDLP</a></li>
+<li><a href="#NanoDLP-Settings">NanoDLP Settings</a></li>
+<li><a href="#Projector-Setup">Projector Setup</a></li>
+<li><a href="#Controlling-Projector-Power-via-Pi">Controlling Projector Power via Pi</a></li>
+<li><a href="#Controlling-Heater-via-Pi">Controlling Heater via Pi</a></li>
+<li><a href="#Mark1-Software-Setup">Mark 1 Software Setup</a></li>
+</ul></li>
+<li><a href="#Manufacturing">Manufacturing</a>
+<ul>
+<li><a href="#General-Manufacturing-Notes">General Manufacturing Notes</a></li>
+<li><a href="#Linear-Rail-Manufacturing">Linear Rail Manufacturing</a></li>
+<li><a href="#Resin-Vat-Manufacturing">Resin Vat Manufacturing</a></li>
+<li><a href="#Build-Plate-Angle-Mount-Manufacturing">Build Plate Angle Mount Manufacturing</a></li>
+<li><a href="#Build-Plate-Strut-Manufacturing">Build Plate Strut Manufacturing</a></li>
+<li><a href="#Build-Plate-Manufacturing">Build Plate Manufacturing</a></li>
+<li><a href="#Motor-Mount-Plate-Manufacturing">Motor Mount Plate Manufacturing</a></li>
+<li><a href="#Projector-Backplate-Manufacturing">Projector Backplate Manufacturing</a></li>
+<li><a href="#Stabilizer-Mount-Manufacturing">Stabilizer Mount Manufacturing</a></li>
+<li><a href="#Endstop-Mount-Manufacturing">Endstop Mount Manufacturing</a></li>
+<li><a href="#Lens-Holder-Manufacturing">Lens Holder Manufacturing</a></li>
+<li><a href="#Shutter-Manufacturing">Shutter Manufacturing</a></li>
+<li><a href="#Hinge-Jig-Manufacturing">Hinge Jig Manufacturing</a></li>
+<li><a href="#Back-Panel-Manufacturing">Back Panel Manufacturing</a></li>
+<li><a href="#Side-Panel-1-Manufacturing">Side Panel 1 Manufacturing</a></li>
+<li><a href="#Side-Panel-2-Manufacturing">Side Panel 2 Manufacturing</a></li>
+<li><a href="#Side-Window-Manufacturing">Side Window Manufacturing</a></li>
+<li><a href="#Lower-Front-Panel-Manufacturing">Lower Front Panel Manufacturing</a></li>
+<li><a href="#Upper-Front-Panel-Manufacturing">Upper Front Panel Manufacturing</a></li>
+<li><a href="#Top-Panel-Manufacturing">Top Panel Manufacturing</a></li>
+<li><a href="#Bottom-Panel-Manufacturing">Bottom Panel Manufacturing</a></li>
+<li><a href="#Decal-Manufacturing">Decal Manufacturing</a></li>
+</ul></li>
+<li><a href="#Construction">Construction</a>
+<ul>
+<li><a href="#Resin-Vat-Construction">Resin Vat Construction</a></li>
+<li><a href="#Frame-Construction">Frame Construction</a></li>
+<li><a href="#Internals-Construction">Internals Construction</a></li>
+<li><a href="#Panel-Construction">Panel Construction</a></li>
+</ul></li>
+<li><a href="#Assembly">Assembly</a>
+<ul>
+<li><a href="#Projector-Backplate-Assembly">Projector Backplate Assembly</a></li>
+<li><a href="#Projector-Backplate-Electronics-Assembly">Projector Backplate Electronics Assembly</a></li>
+<li><a href="#Bottom-Panel-Assembly">Bottom Panel Assembly</a></li>
+<li><a href="#Full-Frame-Printer--Assembly">Full Frame Printer Assembly</a></li>
+</ul></li>
+<li><a href="#Calibration">Calibration</a>
+<ul>
+<li><a href="#Lens-Calibration">Lens Calibration</a></li>
+<li><a href="#Quality-Checks">Quality Checks</a></li>
+</ul></li>
+</ul>
+
+<h2>Notes<a name="Notes"></a></h2>
+
+<h3>Troubleshooting<a name="Troubleshooting"></a></h3>
+
+<ul>
+<li><strong>If wifi and ssh connection to Raspberry Pi is not working.</strong>
+<ul>
+<li>Occasionally the Raspberry Pi boots and is unable to connect to the wifi. </li>
+<li>Resolve this issue by turning the Pi off, resetting the wifi router, then rebooting the Pi.</li>
+</ul></li>
+<li><strong>When manually moving the stepper motors in NanoDLP, the motor moves up or down at full speed ad-infinitum.</strong>
+<ul>
+<li>This occurs because the motor thinks that it is from far from Z position 0, and the motor tries to quickly zero itself.</li>
+<li>Resolve this issue by arbitrarily setting the current motor position to 0 with the G-code command: <strong>G92 Z0</strong></li>
+<li>All Z movement will now be relative to this 0 point. For example, moving up 1mm either with the NanoDLP raise 1mm button or with the G-code command <strong>G1 Z1 F200</strong> will move the motors up 1mm relative to the 0 point.</li>
+</ul></li>
+<li><strong>Need to change a setting on the Raspberry Pi, but NanoDLP turns Pi display into a blank screen.</strong>
+<ul>
+<li>To terminate NanoDLP ssh into the pi and run:</li>
+<li><strong>sudo systemctl disable nanodlp</strong></li>
+<li><strong>sudo systemctl stop nanodlp</strong></li>
+</ul></li>
+<li><strong>Motor is not making any sound nor responding to any move commands.</strong>
+<ul>
+<li>This may occur because the Vref is set to low and the stepper motors are not receiving sufficient voltage.</li>
+<li>Resolve this issue by turning the screw on the A4988 (DRV8825)  motor driver clockwise.</li>
+</ul></li>
+<li><strong>Motor is moving slowly, backticking, jittery, or generally exhibiting signs of not receiving enough voltage.</strong>
+<ul>
+<li>Sometimes voltage to the motor randomly drops. </li>
+<li>Resolve this issue by touching the volt meter to the Vref screw on the A4988 (DRV8825) stepper motor driver and ground. For some unknown reason this restores the full voltage back to the stepper motor driver.</li>
+<li>This may be caused by the motor overheating, especially if a heat gun is sittig below it for an extended period of time.</li>
+</ul></li>
+<li><strong>Z-axis movement is strange. Motor is stalling, distance moved is incorrect, number of pulses per mm is incorrect, etc.</strong>
+<ul>
+<li>This may be caused by incorrect settings in the marlin configuration.h file that is sourced when NanoDLP boots.</li>
+<li>To check these default settings, open the RAMPS terminal after launching NanoDLP to check the default G-code that is sourced from configuration.h.</li>
+</ul></li>
+<li><strong>Z-axis movement is strange. 1mm movement button raises the build plate by more than 1mm. 100 pulse button turns the stepper motor too much or too little.</strong>
+<ul>
+<li>This may be caused by an incorrect steps per unit setting.</li>
+<li>Resolve this issue by running the G-code command <strong>M92 Z400</strong>, for details see the <em>Calibrating Z Axis</em> section.</li>
+<li>Note that to make this change permanent, the G-code start up code box and G-code print start box must be altered to include <strong>M92 Z400</strong>.</li>
+</ul></li>
+<li><strong>Z-axis movement is double what is should be. The build plate moves 2mm for a 1mm move command.</strong>
+<ul>
+<li>The stepper motor pulsing or microstepping is randomly thrown off. Measure the movement of the build plate in response to a 1mm move command to confirm that the movement is inaccurate.</li>
+<li>If movement is double, fix this by running the G-code command <strong>M92 Z200</strong> to reduce the number of pulses per 1mm of movement.</li>
+<li>Note that to make this change permanent, the G-code Bootup Code box and G-code print start box must be altered to include <strong>M92 Z200</strong>.</li>
+<li>Both of these boxes can be find in System -> Machine Settings -> Code / Gcode.</li>
+</ul></li>
+<li><strong>NanoDLP commands are not running in the correct order.</strong>
+<ul>
+<li>For example, the projector begins displaying the first burn in layer before the built plate has finished descending into the resin vat.</li>
+<li>Resolve this issue by assuring that the command <strong>[[WaitForDoneMessage]]</strong> is placed after every move command such as <strong>G28</strong> and <strong>G1</strong> in the G-code.</li>
+<li>For aditional information on this issue see the <strong>Start of Print Code</strong> documentation.</li>
+</ul></li>
+<li><strong>First layer of print sticks to resin vat instead of build plate.</strong>
+<ul>
+<li>Resin may now be warm enough, point heat gun directly at resin to increase resin temperature without overheating electronics.**</li>
+</ul></li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>G-code<a name="G-code"></a></h3>
+
+<ul>
+<li>For a list of G-codes: https://marlinfw.org/docs/gcode/G028.html  </li>
+</ul>
+
+<h4>Positioning</h4>
+
+<ul>
+<li>Find current position: <strong>M114</strong></li>
+<li>Set the Z-axis 0 position to the current position: <strong>G92 Z0</strong></li>
+<li>Home the Z-axis: <strong>G28 Z0</strong>
+<ul>
+<li>This moves the motors up until the endstop is triggered, from here it will move to point 0.</li>
+</ul></li>
+<li>Move stepper motor to the floor (position 0): <strong>G1 Z0</strong></li>
+<li>Move stepper motor up to 100mm (position 100): <strong>G1 Z100</strong></li>
+</ul>
+
+<h4>Movement</h4>
+
+<ul>
+<li>Move stepper motor, controlling for speed: <strong>G1 Z90 F200</strong>
+<ul>
+<li><strong>F</strong> controls the movement rate of the stepper motor, <strong>Z90</strong> moves to 90mm above the floor.</li>
+</ul></li>
+<li>Change default stepper motor speed: <strong>G1 F100</strong>
+<ul>
+<li>Changes all subsequent move commands such as <strong>G1 Z20</strong> to the speed 100.</li>
+</ul></li>
+<li>Set motor acceleration: <strong>M201</strong>
+<ul>
+<li>Alters how quickly the motor accelerates to the top speed specified by <strong>F</strong>.</li>
+<li><strong>M201 Z1</strong> is a slow acceleration and <strong>M201 Z25</strong> is an immediate acceleration.</li>
+<li>Current set by default to <strong>M201 Z4</strong>.</li>
+</ul></li>
+<li>Set steps per unit: <strong>M92 Z400</strong>.
+<ul>
+<li>Sets how many steps (pulses) should be set to the stepper motor per mm of movement.</li>
+<li>For details see the <em>Calibrating Z Axis</em> section.</li>
+</ul></li>
+<li>Dwell in the same position for a set period of time: <strong>G4 P500</strong>
+<ul>
+<li>Pauses the command queue and waits for a set period of time.</li>
+<li><strong>G4 P1000</strong> dwells for 1 second, <strong>G4 P500</strong> dwells for a half second.</li>
+</ul></li>
+</ul>
+
+<h4>Endstops and Servo Motors</h4>
+
+<ul>
+<li>Test endstop activation: <strong>M119</strong></li>
+<li>Trigger servo: <strong>M280 P0 S255</strong>
+<ul>
+<li>P0 sends the command goes to pin 0 (D11 on RAMPS 1.4 board).</li>
+<li>S255 sets the servo position, use <strong>M280 P0 S0</strong> to close the servo.</li>
+</ul></li>
+</ul>
+
+<h4>Random</h4>
+
+<ul>
+<li>Set units to mm: <strong>G21</strong>
+<ul>
+<li>By default <strong>G21</strong> is run an units are set to mm.</li>
+</ul></li>
+<li>Set max feedrate: <strong>M203</strong>
+<ul>
+<li>Does not seem to alter motor movement at all, currently set by default to <strong>M203 Z20</strong>.</li>
+</ul></li>
+<li>Set units to absolute positioning: <strong>G90</strong>
+<ul>
+<li>Sets units so that they are in absolute terms relative to a 0 point. Thus a command like <strong>G1 Z10</strong> moves to the absolute point of 10mm above 0, no matter the current Z location of the build plate.</li>
+<li>The opposite of this is relative positioning, where a command like <strong>G1 Z10</strong> moves the motors up 10mm relative to the last position. Relative positioning can be set with the command <strong>G91</strong>.</li>
+</ul></li>
+<li>Display all stepper motor movement settings: <strong>M503</strong>
+<ul>
+<li>Displays movement settings such as M201 acceleration setting and M205 jerk setting.</li>
+</ul></li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Movement<a name="Movement"></a></h3>
+
+<h4>Z-Axis Steps per mm Setting</h4>
+
+<ul>
+<li>Nema 17 stepper motors have a 1.8 degree step angle, for each step (pulse) the motor turns 1.8 degrees.</li>
+<li>The A4988 motor driver is set to utilize 1/16 microstepping by connecting all pins under the motor driver. Each step (pulse) is split into 16 steps (pulses).</li>
+<li><p>The leadscrews have an 8mm pitch, thus each 360 degree rotation of the stepper motor moves the build plate up 8mm.</p></li>
+<li><p>360 degrees / 1.8 degree step angle = 200 steps to make a full rotation.</p></li>
+<li>200 steps (pulses) * 16 microstepping = 3200 pulses to make a full rotation.</li>
+<li>8mm leadscrew pitch means that 1/8 of a rotation must be made to raise the build plate 1mm.</li>
+<li><p>1mm raise of build plate = 3200 steps * 1/8 = 400 steps (pulses).</p></li>
+<li><p>It takes 400 pulses to raise the build plate 1mm, this is set with the G-code command <strong>M92 Z400</strong>.</p>
+
+<ul>
+<li>Microstepping Sixteenth Step: <strong>M92 Z400</strong></li>
+<li>Microstepping Half Step: <strong>M92 Z50</strong></li>
+<li>Microstepping Full Step: <strong>M92 Z25</strong></li>
+</ul></li>
+<li>This steps per unit value is set by default in configuration.h. It should also be manually set in NanoDLP in the Bootup Code box.</li>
+<li>Set the default steps per unit value by changing the G-code in the Bootup Code G-code code box and in the Start of Print G-code code box.
+<ul>
+<li>Both of these boxes can be find in System -> Machine Settings -> Code / Gcode.</li>
+</ul></li>
+<li>Note, sometimes the stepper motors randomly change to moving 2mm in response to a 1mm move command. 
+<ul>
+<li>If this occurs, change to 200 steps per 1mm with the command: <strong>M92 Z200</strong></li>
+</ul></li>
+</ul>
+
+<h4>Endstop Calibration</h4>
+
+<ul>
+<li>Endstop calibration setting are inputted into the Start of Print code box.
+<ul>
+<li>NanoDLP -> System -> Machine Settings -> Axis / Movement -> Start of Print</li>
+</ul></li>
+<li>The chunk of G-code in this box raises the build plate to the endstop to identify the build plate position, and then moves the build plate to the bottom of the resin vat to begin the print.</li>
+<li>In the Start of Print G-code box the command <strong>G28 Z0 F400</strong> moves the build plate upwards until the endstop is triggered, the command <strong>G92 Z"Max Height"</strong> is then run to identify the current position of the build plate.
+<ul>
+<li>Set <strong>"Max Height"</strong> to the distance between the bottom of the resin vat and the endstop, for example <strong>G92 Z218.8</strong>.</li>
+</ul></li>
+<li>To measure this distance move the build plate to its desires lowest point a few microns above the resin vat bottom, zero the Z position with the command <strong>G92 Z0</strong>, manually raise the build plate until the endstop has just been triggered, run the command <strong>M114</strong> to find the current Z location, plug in this value as "Max Height". </li>
+</ul>
+
+<h4>Start of Print Code</h4>
+
+<ul>
+<li>The following code is run as the first set of commands at the beginning of any print.</li>
+<li>This code is designed to identify the build plate position by triggering the endstop and then move the build plate into its starting position at Z = 0.</li>
+</ul>
+
+<p><strong>M92 Z200</strong> Set steps (pulses) per mm to 200. Alternatively 400 should be used depending on the microstepping of the motor. <br>
+<strong>G28 Z0 F400</strong> Auto home, moves the motor up at a speed of 400 until it hits the Z-axis endstop. <br>
+<strong>[[WaitForDoneMessage]]</strong> Wait for Z-axis movement completion message from RAMPS before continuing with subsequent commands. <br>
+<strong>G90</strong> Set positioning to absolute mode. <br>
+<strong>G92 Z218.8</strong> Set current Z position to 218.8, this is the distance from the resin vat floor to the endstop that has been previously measured. <br>
+<strong>G4 P500</strong> Dwell for half a second at the endstop before beginning downward movement towards the resin vat floor. <br>
+<strong>G1 Z25 F400</strong> Move from endstop to 25mm above resin vat floor at a speed of 400. <br>
+<strong>[[WaitForDoneMessage]]</strong> Wait for Z-axis movement completion message from RAMPS before continuing with subsequent commands. <br>
+<strong>G4 P100</strong> Dwell for a tenth of a second. <br>
+<strong>G1 Z10 F100</strong> Move from 25mm to 10mm above the resin vat at a slower speed of 100. This is where the build plate begins to dip into the resin. <br>
+<strong>[[WaitForDoneMessage]]</strong> Wait for Z-axis movement completion message from RAMPS before continuing with subsequent commands. <br>
+<strong>G4 P100</strong> Dwell for a tenth of a second. <br>
+<strong>G1 Z0 F50</strong> Move to bottom of the resin vat at a slower speed of 50. <br>
+<strong>[[WaitForDoneMessage]]</strong> Wait for Z-axis movement completion message from RAMPS before continuing with subsequent commands. <br>
+<strong>G4 P500</strong> Dwell for half a second before print begins. <br>
+<strong>[[WaitForDoneMessage]]</strong> Wait for Z-axis movement completion message from RAMPS before continuing with subsequent commands. <br>
+<strong>[[PositionSet0]]</strong> Now that the build plate is at the bottom of the resin, set to Z position to 0. <br>
+<strong>M106</strong> Turn fan on. <br></p>
+
+<ul>
+<li>The command <strong>[[WaitForDoneMessage]]</strong> is necessary after any movement command such as <strong>G28</strong> or <strong>G1</strong>. In the marlin firmware file
+<em>Configuration_adv.h</em> there is a setting enabled that causes marlin to send the message "Z_move_comp" to the Raspberry Pi after every 
+completed Z-axis movement. With the command <strong>[[WaitForDoneMessage]]</strong> NanoDLP listens for the "Z_move_comp" message and performs the next
+action after seeing this message. However, because there is a lag between the message being sent from marlin on the RAMPS 1.4 board and the
+message arriving to NanoDLP on the Raspberry Pi, if multiple movement are run in quick succession NanoDLP interprets all actions as being completed
+after the first "Z_move_comp" message arrives. This causes NanoDLP to get ahead of itself and continue with the next print steps before the
+Z-axis movement is completed. An example of this is the first burn in layer image being displayed before the build plate is fully lowered
+into the resin vat. Additionally, short dwell commands such as <strong>G4 P100</strong> are added after the <strong>[[WaitForDoneMessage]]</strong> command to ensure that
+all commands are processed correctly</li>
+</ul>
+
+<h4>Resume Print Code</h4>
+
+<p><strong>G90</strong>
+<strong>G92 Z[[CurrentPosition]]</strong> Set Z position to the current position. <br>
+<strong>G1 Z[[LayerPosition]]</strong> Move to the current layer being printed. <br>
+<strong>[[WaitForDoneMessage]]</strong> <br>
+<strong>[[PositionSet[[LayerPosition]]]]</strong> Set Z position to the layer position that was just moved to. <br>
+<strong>M106</strong> <br></p>
+
+<h4>Print Stop Code</h4>
+
+<p><strong>G1 Z200 F300</strong> Move to 200mm above the bottom of the resin vat after finishing print. <br>
+<strong>[[WaitForDoneMessage]]</strong> <br>
+<strong>[[PositionSet[[StopPosition]]]]</strong> <br>
+<strong>M107</strong> Turn fan off. <br></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Resin Profile Settings<a name="Resin-Profile-Settings"></a></h3>
+
+<h4>Code Before Each Layer</h4>
+
+<p><strong>G1 Z[[LayerPosition]] F[[ZSpeed]]</strong> Move to next print layer at the speed set in Dynamic Speed. <br>
+<strong>[[WaitForDoneMessage]]</strong> <br>
+<strong>G4 P100</strong> <br>
+<strong>[[PositionSet[[LayerPosition]]]]</strong> Update current Z position. <br>
+<strong>[[WaitForDoneMessage]]</strong> <br></p>
+
+<h4>Code After Each Layer</h4>
+
+<p><strong>G4 P100</strong> <br>
+<strong>G1 Z{[[LayerPosition]] + [[ZLiftDistance]]} F[[ZSpeed]]</strong> Lift the build plate by the height set in Dynamic Lift at the speed set in Dynamic Speed. <br>
+<strong>[[WaitForDoneMessage]]</strong> <br>
+<strong>G4 P100</strong> <br>
+<strong>[[PositionChange[[ZLiftDistance]]]]</strong> Update current Z position. <br>
+<strong>[[WaitForDoneMessage]]</strong> <br></p>
+
+<h4>Dynamic Settings</h4>
+
+<ul>
+<li>Dynamic setting boxes allow print variables to alter throughout the print.</li>
+<li>Boolean conditions evaluate to 1 if met or else 0.</li>
+<li>For an additional explanation of how dynamics settings may be set: https://docs.google.com/document/d/1ySVb57AXCVfBFSr9KF7B7k3M130pJvRXXfEoh6pJP_4/edit#</li>
+<li>For a list of variables that may be used in dynamic settings: https://docs.nanodlp.com/manual/code/</li>
+</ul>
+
+<h4>Dynamic Speed</h4>
+
+<ul>
+<li>For the first two layers, sets movement speed to 50. For subsequent layers lift speed is a function of the total area being printed. The larger the area being printed to slower the layer lifts, with movement speed values ranging from 80 to 150. <br>
+<strong>{(([[LayerNumber]]&lt;=2)<em>50) + ([[LayerNumber]]>2) * (150-80</em>(0.087*(log([[TotalSolidArea]]))))}</strong></li>
+</ul>
+
+<h4>Dynamic Cure Time</h4>
+
+<ul>
+<li>The first two layers (burn in layers) cure for 5x the normal cure time. Subsequent layers cure for between 2.5 to 3.5 seconds depending on the size of the layer that is being printed. Smaller layers cure for more time. <br>
+<strong>{((([[LayerNumber]]&lt;=2)<em>4)+1)</em>(3.5-2.5<em>(0.087</em>(log([[TotalSolidArea]]))))}</strong></li>
+</ul>
+
+<h4>Dynamic Lift</h4>
+
+<ul>
+<li>The first two layers lift 6mm, subsequent layers lift 2mm to 4mm as a function of the largest object in the layer. Layers with larger objects lift higher.</li>
+<li>The logic behind using LargestArea is that large objects will require more time for resin to flow in after each layer is lifted. <br>
+<strong>{(([[LayerNumber]]&lt;=2)<em>6)+([[LayerNumber]]>2)</em>(2+4<em>(0.087</em>(log([[LargestArea]]))))}</strong></li>
+</ul>
+
+<h4>Dynamic Wait After Lift</h4>
+
+<ul>
+<li>The first two layers wait for 1 seconds after lift. Subsequent layers wait for 0.05 to 0.25 seconds depending on the size of the total area being printed. Larger layers wait longer. <br>
+<strong>{(([[LayerNumber]]&lt;=2)<em>1) + ([[LayerNumber]]>2) * (0.25-0.05</em>(0.087*(log([[TotalSolidArea]]))))}</strong></li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>General Notes<a name="General-Notes"></a></h3>
+
+<ul>
+<li>The smaller the focal length, the more barrel factor that you need to compensate for image warping.
+<ul>
+<li>This occurs because smaller focal length -> thicker lens -> more light bending -> more magnification.</li>
+</ul></li>
+<li>Optimal barrel factor changes by lens focal length.</li>
+<li>Because the build plate has no holes in it, when the build plate is very close to glass this creates a suction which can be too powerful for the stepper motors to overcome and stall the motors.
+<ul>
+<li>Any stall of the motor ruins the print as the printer subsequently does not know its true Z-axis location.</li>
+<li>This can be solved by setting the initial burn in layer higher, lifting very slowly for the first few layers, or adding holes to the build plate.</li>
+<li>The suction effect is lessened is the resin is warm.</li>
+</ul></li>
+<li>If there are still air bubbles between the build plate and resin vat on the initial burn in layer, you can make the delay before displaying burn in layers arbitrarily long in the resin profile to allow these air bubbles to escape from under the build plate.</li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Dimensions<a name="Dimensions"></a></h3>
+
+<ul>
+<li>Projector is mounted 273mm from the bottom of the resin vat.
+<ul>
+<li>Note that this measurement is from the top of the projector (not the lens) to the bottom of the resin vat.</li>
+</ul></li>
+<li>The travel of the build plate / maximum print size in the Z dimension is 217.3mm.
+<ul>
+<li>Note that the built plate nuts must be supported with tape underneath or else in the process of removing the build plate the nuts will move and the Z-axis travel will change.</li>
+</ul></li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h2>Parts<a name="Parts"></a></h2>
+
+<h3>Electronics<a name="Electronics"></a></h3>
+
+<ul>
+<li><strong>Raspberry Pi 3 Model 3B+</strong>
+<ul>
+<li>5V/2.5A DC power input.</li>
+</ul></li>
+<li><strong>Raspberry Pi power cord</strong>
+<ul>
+<li>5.25V/3A.</li>
+<li>3.3ft. cable.</li>
+</ul></li>
+<li><strong>16gb Memory Card</strong>
+<ul>
+<li>NOOBS pre-installed.</li>
+</ul></li>
+<li><strong>RAMPS 1.4 Controller Board</strong>
+<ul>
+<li>12V/5A power input.</li>
+</ul></li>
+<li><strong>A4988 Stepper Motor Driver</strong></li>
+<li><strong>DRV8825 Stepper Motor Driver</strong>
+<ul>
+<li>Note, the DRV8825 stepper motor driver is an alternative to the A4988 that provides more amps to the stepper motors and is thus preferred.</li>
+</ul></li>
+<li><strong>MEGA 2560 R3 Microcontroller</strong>
+<ul>
+<li>USB connector cable necessary for interaction with Pi.</li>
+</ul></li>
+<li><strong>Mechanical Endstop</strong>
+<ul>
+<li>2A current rating.</li>
+<li>3.3ft cable length. </li>
+<li>3 wire input.</li>
+</ul></li>
+<li><strong>60W/12V/5A Power Supply</strong>
+<ul>
+<li>3ft. cable to 3-prong plug, 1ft. cable to power output.</li>
+<li>90-265V AC input to 12V 5A output.</li>
+<li>Case size is X: 7.48in., Y: 1.92in., Z: 1.34in.   </li>
+</ul></li>
+<li><strong>HDMI Cord</strong>
+<ul>
+<li>1.6ft. length.</li>
+<li>Thin cable, slim connectors to fit projector backplate size constraint.</li>
+</ul></li>
+<li><strong>Power Strip</strong>
+<ul>
+<li>5 AC outlets, 3 USB ports, 5 ft. cord, power switch, 4 wall mounts.</li>
+<li>Dimensions: X: 6.77in., Y: 3.54in., Z: 1.1in.</li>
+<li>Max power: 1875W (125V~15A), AC 100-250V.</li>
+</ul></li>
+<li><strong>DHT 11 Temperature Humidity Sensor</strong>
+<ul>
+<li>3.3-5V DC working voltage.</li>
+</ul></li>
+<li><strong>2 Channel Relay Module</strong>
+<ul>
+<li>5V control voltage.</li>
+<li>High current relay 250V/10A AC to 30V/10A DC. </li>
+</ul></li>
+<li><strong>500W Electric Space Heater</strong></li>
+</ul>
+
+<h3>Motors<a name="Motors"></a></h3>
+
+<ul>
+<li><strong>(2x) Nema 17 Stepper Motor</strong>
+<ul>
+<li>Rated 2A/1.4ohms resistance.</li>
+<li>1.8 degree step angle.</li>
+<li>4 wire input.</li>
+</ul></li>
+<li><strong>20Kg Servo Motor</strong>
+<ul>
+<li>4.8-6.8V DC input.</li>
+<li>270 degree control angle.</li>
+</ul></li>
+</ul>
+
+<h3>Projector<a name="Projector"></a></h3>
+
+<ul>
+<li><strong>ViewSonic PX703HD</strong>
+<ul>
+<li>1920 x 1080 pixel resolution.</li>
+<li>115200 Baud Rate.</li>
+<li>1.3x optical zoom.</li>
+<li>1.13 - 1.47 throw ratio.</li>
+</ul></li>
+<li><strong>200mm Focal Length Convex Lens</strong>
+<ul>
+<li>75mm diameter.</li>
+</ul></li>
+<li><strong>300mm Focal Length Convex Lens</strong>
+<ul>
+<li>75mm diameter.</li>
+</ul></li>
+<li><strong>500mm Focal Length Convex Lens</strong>
+<ul>
+<li>75mm diameter.
+<strong>Aluminum Sheet for Shutter</strong></li>
+<li>Aluminum Sheet 0.16in x 4in x 10in.</li>
+</ul></li>
+</ul>
+
+<h3>Resin Vat<a name="Resin-Vat"></a></h3>
+
+<ul>
+<li><strong>6063 Aluminum Angle for Vat Walls</strong>
+<ul>
+<li>1in. x 1in. x 0.125in.</li>
+<li>1200mm (47.24in.) necessary. </li>
+</ul></li>
+<li><strong>Borosilicate Glass</strong>
+<ul>
+<li>12in x 8in x 1/8in thick.</li>
+</ul></li>
+<li><strong>FEP Film</strong>
+<ul>
+<li>250mm (9.84in.) x 140mm (5.51in.) minimum necessary.</li>
+<li>11.75in x 12in, 5mil thick.</li>
+</ul></li>
+<li><strong>Bolt and Gasket for Vat Drain.</strong></li>
+<li><strong>3M Marine Adhesive Sealant</strong>
+<ul>
+<li>Fast Cure 5200.</li>
+</ul></li>
+</ul>
+
+<h3>Linear Movement<a name="Linear-Movement"></a></h3>
+
+<ul>
+<li><strong>(4x) 350mm Linear Guide and Slide Block</strong>
+<ul>
+<li>Stainless steel, ball bearings.</li>
+<li>MGN 12H with H-type carriage.</li>
+</ul></li>
+<li><strong>(2x) 400mm Lead Screw, Pillow Bearing Blocks, and Copper Nut</strong>
+<ul>
+<li>Stainless steel lead screw, copper nut. </li>
+<li>Lead screw diameter is 8mm.</li>
+</ul></li>
+<li><strong>(2x) Stepper Motor Mounting Brackets</strong>
+<ul>
+<li>Alloy steel.</li>
+<li>Fits 42mm Nema 17 Stepper Motor.</li>
+</ul></li>
+<li><strong>6061 Aluminum Angle Mounted to Linear Guide Slide Blocks and Lead Screw.</strong>
+<ul>
+<li>1.5in. x 1.5in. x 0.125in.</li>
+<li>816mm (32.12in.) necessary.</li>
+</ul></li>
+<li><strong>6063 Aluminum Angle Struts for Suspending Build Plate</strong>
+<ul>
+<li>1in. x 1.5in. x 0.125in.</li>
+<li>540mm (21.26in.) necessary.</li>
+</ul></li>
+<li><strong>6061 Aluminum Sheet for Build Plate</strong>
+<ul>
+<li>0.25in. thickness.</li>
+<li>270mm x 150mm necessary.</li>
+</ul></li>
+</ul>
+
+<h3>Frame <a name="Frame"></a></h3>
+
+<ul>
+<li><strong>(6x) 300mm Linear Rail for Horizontal Struts</strong>
+<ul>
+<li>Aluminum.</li>
+<li>20mm x 20mm diameter, 6mm T-slot.</li>
+<li>Size: 2020V-B.</li>
+</ul></li>
+<li><strong>(6x) 400mm Linear Rail for Horizontal Struts</strong>
+<ul>
+<li>20mm x 20mm diameter, 6mm T-slot.</li>
+<li>Size: 2020V-B.</li>
+</ul></li>
+<li><strong>(4x) 600mm Linear Rail for Vertical Base Struts</strong>
+<ul>
+<li>20mm x 20mm diameter, 6mm T-slot.</li>
+<li>Size: 2020V-B.</li>
+</ul></li>
+<li><strong>(4x) 400mm 2040 Double Linear Rail for Vertical Top Struts</strong>
+<ul>
+<li>20mm x 40mm diameter, 6mm T-slot.</li>
+<li>Will be cut down to 350mm during construction process.</li>
+<li>Size: 2040V.</li>
+</ul></li>
+<li><strong>(32x) Gussets / Corner Brackets for Connecting Linear Rail</strong>
+<ul>
+<li>Dimensions: X: 20mm, Y: 28mm, Z: 28mm.</li>
+<li>6mm hole for mounting gussets.</li>
+</ul></li>
+<li><strong>(40x) M5 T-nuts for Mounting Object to Linear Rail</strong>
+<ul>
+<li>Part Number: TL-M5-40pcs.</li>
+</ul></li>
+<li><strong>(50x) M5 T-nuts for Mounting Object to Linear Rail</strong>
+<ul>
+<li>Part Number: BR-TN-0015 </li>
+</ul></li>
+<li><strong>5052 Aluminum Sheet for Mounting Projector to Frame</strong>
+<ul>
+<li>0.125in. thickness.</li>
+<li>440mm x 200mm needed.</li>
+</ul></li>
+<li><strong>(2x) 5052 Aluminum Sheet for Mounting Stepper Motors to Frame</strong>
+<ul>
+<li>0.125in. thickness.</li>
+<li>440mm x 50mm needed.</li>
+</ul></li>
+<li><strong>(4x) Threaded Feet for Frame</strong>
+<ul>
+<li>Nickel-plated steel with cushion. Swivel level mounting.</li>
+<li>1" Long, 10-32 threaded stud.</li>
+</ul></li>
+</ul>
+
+<h3>Exterior Cover <a name="Exterior-Cover"></a></h3>
+
+<ul>
+<li><strong>(9x) Type 1 PVC Plastic Sheets</strong>
+<ul>
+<li>Polyvinyl Chloride.</li>
+<li>3mm thickness.</li>
+<li>(1x) Back Panel: 446mm x 956mm.</li>
+<li>(2x) Top and Bottom Panel: 340mm x 446mm.</li>
+<li>(1x) Front Bottom Panel: 446mm x 593mm.</li>
+<li>(1x) Front Top Panel: 446mm x 363mm.</li>
+<li>(2x) Side Bottom Panels: 340mm x 590mm.</li>
+<li>(2x) Opaque Side Top Panels: 340mm x 360mm. These panels are not necessary as acrylic is used for side top panels.</li>
+</ul></li>
+<li><strong>(8x) Hinges</strong>
+<ul>
+<li>Steel mortise mount hinges with holes, nonremovable pin.</li>
+<li>Hinge size is X: 2.5", Y: 1.25".</li>
+</ul></li>
+<li><strong>(8x) Magnetic Latches</strong>
+<ul>
+<li>Black Zinc-Plated Steel latches and strike plates.</li>
+<li>Dimensions X: 5/16", Y: 1", Z: 15/16".</li>
+</ul></li>
+</ul>
+
+<h3>Bolts <a name="Bolts"></a></h3>
+
+<ul>
+<li><strong>(4x) M6 x 60mm Countersunk Bolts for Connecting Build Plate to Build Plate Struts</strong>
+<ul>
+<li>(8x) M6 nuts.</li>
+<li>(4x) M6 wing nuts.</li>
+</ul></li>
+<li><strong>(8x) M5 x 35mm Bolts for Mounting Stabilizer Mounts to Linear Rail.</strong></li>
+<li><strong>(2x) M5 x 15mm Bolts for Mounting Lens Holder to Projector Backplate.</strong>
+<ul>
+<li>(2x) M5 nuts.</li>
+</ul></li>
+<li><strong>(8x) M5 x 10mm Bolts for Connecting Build Plate Struts to Build Plate Angle Mounts</strong>
+<ul>
+<li>(8x) M5 nuts.</li>
+</ul></li>
+<li><strong>(16x) M5 x 10mm Countersunk Bolts for Connecting Hinges to Linear Rail through PVC Plates.</strong>
+<ul>
+<li>(16x) M5 nuts. </li>
+</ul></li>
+<li><strong>(34x) M5 x 8mm Bolts for Connecting Exterior Panels to Linear Rail</strong>
+<ul>
+<li>(16x) M5 Linear Rail T-nuts.</li>
+</ul></li>
+<li><strong>(16x) M5 x 8mm Bolts for Connecting Aluminum Sheet and Angle to Frame</strong>
+<ul>
+<li>(16x) M5 Linear Rail T-nuts.</li>
+</ul></li>
+<li><strong>(64x) M5 Linear Rail T-nuts for Connecting Gussets to Linear Rail.</strong>
+<ul>
+<li>Replaces weak T-nuts that come with the gussets.</li>
+</ul></li>
+<li><strong>(8x) M4 x 16mm Bolts for Connecting Stepper Motor Mounts to Aluminum Motor Mount Plates</strong>
+<ul>
+<li>(8x) M4 nuts.</li>
+<li>Optional (8x) additional M4 nuts for correctly spacing motor mount away from aluminum sheet.</li>
+</ul></li>
+<li><strong>(4x) M4 x 20mm Bolts for Mounting Electric Heater to Floor Plate.</strong>
+<ul>
+<li>(12x) M4 nuts.</li>
+</ul></li>
+<li><strong>(3x) M4 x 12mm Bolts for Connecting Projector to Projector Backplate</strong>
+<ul>
+<li>(3x) M4 nuts.</li>
+</ul></li>
+<li><strong>(8x) M4 x 12mm Bolts for Connecting Magnets to Linear Rail.</strong>
+<ul>
+<li>(8x) M4 Linear Rail T-nuts.</li>
+</ul></li>
+<li><strong>(2x) M4 x 8mm Bolts for Mounting Power Supply Brick to Floor Plate.</strong>
+<ul>
+<li>(2x) M4 nuts.</li>
+</ul></li>
+<li><strong>(3x) M3 x 25mm Bolts for Mounting RAMPS 1.4 Board to Projector Backplate.</strong>
+<ul>
+<li>(9x) M3 nuts for mounting RAMPS with space between RAMPS 1.4 and backplate.</li>
+</ul></li>
+<li><strong>(2x) M3 x 16mm Countersunk Bolts for Mounting Lens Holder Ring to Lens Holder Arms.</strong>
+<ul>
+<li>(2x) M3 nuts.</li>
+</ul></li>
+<li><strong>(2x) M3 x 16mm Bolts for Mounting Endstop to Endstop Mount.</strong>
+<ul>
+<li>(6x) M3 nuts for mounting endstop with space between the endstop and endstop mount.</li>
+</ul></li>
+<li><strong>(8x) M3 x 10mm Bolts for Mounting Copper Nuts to Build Plate Angle Mounts.</strong>
+<ul>
+<li>(8x) M3 nuts.</li>
+</ul></li>
+<li><strong>(4x) M3 x 10mm Bolts for Mounting Power Relay to Projector Backplate.</strong>
+<ul>
+<li>(12x) M3 nuts for mounting relay with space between the relay and backplate.</li>
+</ul></li>
+<li><strong>(1x) M3 x 10mm Bolts for Mounting DHT11 Temperature Sensor to Projector Backplate.</strong>
+<ul>
+<li>(3x) M3 nuts for mounting the temperature sensor with space between the sensor and backplate.</li>
+</ul></li>
+<li><strong>(4x) M3 x 10mm Bolts for Mounting Power Strip to Floor Plate.</strong>
+<ul>
+<li>(4x) M3 nuts.</li>
+</ul></li>
+<li><strong>(16x) M3 x 6mm Bolts for Mounting Build Plate Angle Mounts to Linear Rail.</strong></li>
+<li><strong>(16x) M3 x 6mm Bolts for Mounting Linear Guides to Linear Rail.</strong>
+<ul>
+<li>(16x) M3 Linear Rail T-nuts.</li>
+</ul></li>
+<li><strong>(4x) M2 x 20mm Bolts for Mounting Raspberry Pi 3B+ to Projector Backplate.</strong>
+<ul>
+<li>(12x) M2 nuts for mounting Pi with space between Pi and backplate.</li>
+</ul></li>
+<li><p><strong>(2x) 10-24in. x 3/8in. Bolts for Resin Vat Drain Plugs.</strong></p>
+
+<ul>
+<li>(2x) 10-24in. nuts and gaskets for sealing drain plugs.</li>
+</ul></li>
+<li><p><strong>Totals</strong></p>
+
+<ul>
+<li>(4x) M6 x 60mm Countersunk Bolts.</li>
+<li>(8x) M6 Nuts.</li>
+<li>(4x) M6 Wing Nuts.</li>
+<li>(8x) M4 x 35mm Bolts.</li>
+<li>(2x) M5 x 15mm Bolts.</li>
+<li>(8x) M5 x 8mm Bolts.</li>
+<li>(34x) M5 x 8mm Bolts.</li>
+<li>(112x) M5 Linear Rail T-nuts.</li>
+<li>(26x) M5 Nuts.</li>
+<li>(4x) M4 x 20mm Bolts.</li>
+<li>(8x) M4 x 16mm Bolts.</li>
+<li>(8x) M4 x 12mm Bolts.</li>
+<li>(6x) M4 x 8mm Bolts.</li>
+<li>(8x) M4 Linear Rail T-nuts.</li>
+<li>(22x) M4 Nuts.</li>
+<li>(2x) M3 x 16mm Bolts.</li>
+<li>(2x) M3 x 16mm Countersunk Bolts.</li>
+<li>(26x) M3 x 10mm Bolts.</li>
+<li>(32x) M3 x 6mm Bolts.</li>
+<li>(16x) M3 x T-nuts.</li>
+<li>(35x) M3 Nuts.</li>
+<li>(2x) 10-24in. x 3/8in. Bolts.</li>
+<li>(2x) 10-24in. Nuts.</li>
+</ul></li>
+</ul>
+
+<h2>Software Setup <a name="Software-Setup"></a></h2>
+
+<h3>Raspberry Pi Setup <a name="Raspberry-Pi-Setup"></a></h3>
+
+<ul>
+<li>If SD card does not come with NOOBS OS pre-installed, connect SD card to 
+external computer and write Raspberry Pi OS to the SD card using the
+Raspberry Pi imager software.</li>
+<li>If SD card comes with NOOBS pre-installed, power on Raspberry Pi with monitor,
+keyboard, and mouse attached. Select Raspberry Pi OS Full 32-bit to install.</li>
+<li>Proceed through Raspberry Pi setup after boot. </li>
+<li>Update Raspberry Pi: <strong>sudo apt-get update</strong></li>
+<li>Install vim: <strong>sudo apt-get install vim</strong></li>
+<li>Add terminal shortcuts for convenience:
+<ul>
+<li><strong>vim ~/.bashrc</strong></li>
+<li><strong>alias c='clear'</strong></li>
+<li><strong>source ~/.bashrc</strong></li>
+</ul></li>
+<li>Change computer name.
+<ul>
+<li><strong>sudo vim /etc/hostname</strong></li>
+<li>Change name to mark1-0 where 01 is the printer model and 0 is the
+serial number of the particular printer.</li>
+<li><strong>sudo vim /etc/hosts</strong></li>
+<li>Change all instances of the original computer name to the name added to
+/etc/hostname. </li>
+<li>To put changes into effect: <strong>sudo reboot</strong></li>
+</ul></li>
+<li><p>Set static IP address.</p>
+
+<ul>
+<li>Open DHCP config file: <strong>sudo vim /etc/dhcpcd.conf</strong></li>
+<li>At the bottom of the file add the following to set a static IP address
+for both a wired and wireless connection (eth0 = wired, wlan0 = wireless).</li>
+<li><p>In the code below replace XXX.XXX with your local IP address.</p>
+
+<p><code>interface eth0</code> <br>
+<code>static ip_address=XXX.XXX.12.10/24</code> <br>
+<code>static routers=XXX.XXX.12.1</code> <br>
+<code>static domain_name_servers=XXX.XXX.12.1</code></p>
+
+<p><code>interface wlan0</code> <br>
+<code>static ip_address=XXX.XXX.12.200/24</code> <br>
+<code>static routers=XXX.XXX.12.1</code> <br>
+<code>static domain_name_servers=XXX.XXX.12.1</code></p></li>
+</ul></li>
+<li><p>This statically assigns the IP addresses XXX.XXX.12.10 if connected via wifi and XXX.XXX.12.200 if connected via ethernet. </p>
+
+<ul>
+<li>Make sure XXX.XXX.12 matches the IP addresses of the desired internet source.</li>
+<li>Increment 10 and 200 in the IP addresses above by one with each new printer
+to avoid conflict if multiple printers are running on the same internet.</li>
+<li>Reboot for IP changes to take effect: <strong>sudo reboot</strong></li>
+</ul></li>
+<li>Install ufw, open port 22 for ssh, open port 80 to display the NanoDLP interface to the web.
+<ul>
+<li><strong>sudo apt-get install ufw</strong></li>
+<li><strong>sudo ufw enable</strong></li>
+<li><strong>sudo ufw allow 22</strong></li>
+<li><strong>sudo ufw allow 80</strong></li>
+<li>Allow ssh via port 22 and ssh password login: <strong>sudo vim /etc/ssh/sshd_config</strong></li>
+</ul></li>
+<li>Install openssh-server to support ssh connections from the server (pi) side.
+<ul>
+<li><strong>sudo apt install openssh-server</strong></li>
+<li><strong>sudo systemctl enable ssh</strong></li>
+</ul></li>
+<li>From personal computer, copy public key to the remote server.
+<ul>
+<li>ssh-copy-id -p 22 pi@XXX.XXX.12.200</li>
+</ul></li>
+<li>On personal computer, add ssh profile to ~/.ssh/config.</li>
+</ul>
+
+<h3>Arduino and RAMPS Board Setup <a name="Arduino-and-RAMPS-Board-Setup"></a></h3>
+
+<ul>
+<li>Attach RAMPS 1.4 to Arduino 2560.</li>
+<li>Attach heat sink to the processor on the A4988 stepper driver.</li>
+<li>Attach three microstepper jumpers to the pins under where the Z-axis stepper
+is attached.
+<ul>
+<li>For A4988 motor driver three jumpers sets the microstepping to 1/16.</li>
+<li>One jumper sets halfstepping. Jumper should be placed on the MS1 jumper (the jumper farthest from the VREF screw).</li>
+</ul></li>
+<li>Attach stepper driver to Z-axis location with current adjustment screw facing
+away from the USB cord.</li>
+<li>Attach stepper motor to Z-axis location with black wire facing away from the
+USB cord.</li>
+<li>Attach end stop wire to Z-max location with red wire closest to the stepper
+motor.
+<ul>
+<li>Note, the Z-max location is the 3 pins farthest from the power supply (closest to the 4 pins).</li>
+<li>Note, if the endstop wires are incorrectly attached to the RAMPS board
+(i.e. the GND goes to the power source), this will result in a burning plastic smell.</li>
+</ul></li>
+<li>Connect power supply to the 5A power supply terminals.
+<ul>
+<li>These are the two terminal farthest from the USB plug.</li>
+<li>Red (+) in left terminal, Black (-) in right terminal.</li>
+</ul></li>
+<li>Connect RAMPS and Arduino board to pi via USB in lower right USB slot.</li>
+</ul>
+
+<h3>Stepper Motor Setup <a name="Stepper-Motor-Setup"></a></h3>
+
+<ul>
+<li>The voltage sent to the stepper motors must be set correctly.
+<ul>
+<li>This voltage (Vref) is set by turning the screw on the A4988 motor driver clockwise to increase voltage.</li>
+</ul></li>
+<li>The equation for setting this voltage varies based on the stepper motor driver.</li>
+<li>The equation for an A4988 driver is: Vref = 8 * I * R
+<ul>
+<li>Where: 8 is a constant specific to the A4988 driver, I is the maximum current capacity of the stepper motor, and R is the resistance of the stepper motor driver.</li>
+<li>These Nema 17 stepper motors have a maximum current rating of 2.0A, for safety we multiply this by 90% to get I = 1.8A.</li>
+<li>The resistance of A4988 drivers varies by manufacturer, these have a resistance of 0.1 ohms so R = 0.1.</li>
+</ul></li>
+<li>Vref = 8 * 1.8 * 0.1 = 1.44</li>
+<li>Use a volt meter with the positive end on the Vref screw to set the correct Vref.</li>
+<li>On Mark 1, Vref is current set to ~1V as this supplies enough power and is quieter than running the motors at 1.4V.</li>
+</ul>
+
+<h3>Servo Motor Setup <a name="Servo-Motor-Setup"></a></h3>
+
+<ul>
+<li>Attach servo motor to servo motor pins.
+<ul>
+<li>Note, connect to the set of 3 pins that is closest to the power supply. This is the D11 slot which corresponds to Pin 0.</li>
+<li>Note, the black wire (ground) goes closest to the edge of the board.</li>
+<li>It is possible to supply power to the servo motor by shorting the VCC and 5V pins that are to the left of the reset button by connecting these pins via a jumper. </li>
+<li>Doing this supplies power to the servo motor from the Arduino, however, running the servo motor like this will overpower the Arduino and cause it to shut off.</li>
+<li>Thus, the 5V pin must be given its own 5V power supply. Use LM7805 voltage regulator to step the 12V power input down to 5V. Note that the LM7805 outputs 1.5A which is not enough to turn the servo motor. Use two LM7805 regulators to provide 3A to the servo motor.</li>
+<li>A servo motor in the 3 pin slot closest to the power supply (D11 slot, Pin 0) is controlled via the G-Code command: <strong>M280 P0 S0</strong> / <strong>M280 P0 S255</strong>.</li>
+</ul></li>
+</ul>
+
+<h3>Arduino and RAMPS Software Install <a name="Arduino-and-RAMPS-Software-Install"></a></h3>
+
+<ul>
+<li>Connect Raspberry Pi to monitor, keyboard, and mouse.</li>
+<li>If NanoDLP has already been set up, terminate NanoDLP and access the desktop.</li>
+<li>To terminate NanoDLP ssh into the pi and run:
+<ul>
+<li><strong>sudo systemctl disable nanodlp</strong></li>
+<li><strong>sudo systemctl stop nanodlp</strong></li>
+</ul></li>
+<li>Navigate to Marlin install page and install Marlin 2.0.x.
+<ul>
+<li>marlinfw.org/docs/basics/install.html</li>
+<li>Right click .zip downloaded file and extract to: /home/pi</li>
+</ul></li>
+<li>Navigate to Arduino install page and install Arduino IDE.
+<ul>
+<li>arduino.cc/en/Main/Software_</li>
+<li>Download Linux ARM 32 bit version.</li>
+<li>Extract the downloaded files to: /home/pi</li>
+<li>Inside the arduino files run <strong>sudo bash install.sh</strong></li>
+</ul></li>
+<li>On local computer (not Raspberry Pi) navigate to the directory where firmware configurations are stored.
+<ul>
+<li>/civilization/Mark1/firmware/marlin_local/Marlin</li>
+<li>Copy configuration files from local computer to Raspberry Pi.</li>
+<li><strong>scp Configuration.h Configuration_adv.h pi@XXX.XXX.12.201:/home/pi/Marlin-2.0.x/Marlin</strong> </li>
+</ul></li>
+<li>On Raspberry Pi navigate to /home/pi/Marlin-2.0.x/Marlin and double click Marlin.ino.
+<ul>
+<li>Inside Arduino IDE:</li>
+<li>Tools -> Port -> /dev/ttyUSB0</li>
+<li>Board -> Arduino Mega or Mega 2560</li>
+<li>Click arrow in the upper left to compile and upload configuration files to RAMPS board.</li>
+<li>These configuration files are used whenever NanoDLP boots.</li>
+</ul></li>
+</ul>
+
+<h3>Verify RAMPS Functionality <a name="Verify-RAMPS-Functionality"></a></h3>
+
+<ul>
+<li>Download pronterface.
+<ul>
+<li><strong>sudo apt update</strong></li>
+<li><strong>sudo apt install printrun</strong></li>
+</ul></li>
+<li><p>Launch pronterface and verify RAMPS functionality.</p>
+
+<ul>
+<li>Run pronterface with the command: <strong>pronterface</strong></li>
+<li>Check in the upper left of the GUI that the Port is correct and set the 
+Baud Rate to 115200.</li>
+<li>Run the Gcode command M119 to verify endstop functionality.</li>
+<li>Endstop statuses should read: x<em>min: open, y</em>min: open, z<em>min: open, z</em>max: open.</li>
+<li>If M119 is ran while the endstop is triggered, z<em>max should read z</em>max: triggered.</li>
+<li>Move Z-axis position and check that it is spinning in the correct direction.</li>
+<li>When Z-axis is set to move up, the stepper motor should spin clockwise (to the left).</li>
+<li>Check Z-axis homing capability. Click the Z home button and then press and hold the endstop to set the Z home.</li>
+<li>Note, if you only tap the endstop homing will fail.</li>
+<li>After homing, move down 2mm in the Z direction and then move 10mm up. On the 10mm up command, the stepper motor should only move 2mm up.</li>
+</ul></li>
+<li><p>If NanoDLP was previously set up, enable NanoDLP so that it runs on launch.</p>
+
+<ul>
+<li><strong>sudo systemctl enable nanodlp</strong></li>
+<li><strong>sudo systemctl start nanodlp</strong></li>
+</ul></li>
+</ul>
+
+<h3>Install and Launch NanoDLP <a name="Install-and-Launch-NanoDLP"></a></h3>
+
+<ul>
+<li>From pi, download NanoDLP with wget.
+<ul>
+<li><strong>(wget https://www.nanodlp.com/download/nanodlp.linux.arm.rpi.stable.tar.gz --no-check-certificate -O - | tar -C /home/pi -xz --warning=no-timestamp)</strong></li>
+<li><strong>cd /home/pi/printer</strong></li>
+</ul></li>
+<li>Before running <strong>setup.sh</strong>, manually install pigpio as this seems to fail if done via <strong>setup.sh</strong>.
+<ul>
+<li><strong>sudo apt-get install pigpio</strong></li>
+<li>If this fails with a locked dpk error, run the following commands.</li>
+<li><strong>sudo rm /var/lib/apt/lists/lock</strong></li>
+<li><strong>sudo rm /var/cache/apt/archives/lock</strong></li>
+<li><strong>sudo rm /var/lib/dpkg/lock</strong></li>
+<li><strong>sudo dpkg --configure -a</strong></li>
+<li><strong>sudo apt update</strong></li>
+<li><strong>sudo apt-get install pigpio</strong></li>
+</ul></li>
+<li>Run <strong>sudo ./setup.sh</strong>
+<ul>
+<li>Are you using shutter and is it wired to Raspberry Pi: Y</li>
+<li>This apt installs pigpio, but it should already be installed above.</li>
+<li>Do you want to optimize Raspberry Pi settings for NanoDLP automatically: Y</li>
+<li>Do you want to enable i2c to enable... : Y</li>
+<li>To expand file system, enable SSH server and camera module.. : Y</li>
+<li>5 Interfacing Options -> P2 SSH -> Yes</li>
+<li>5 Interfacing Options -> I2C -> Yes</li>
+<li>5 Interfacing Options -> Remote GPIO -> Yes</li>
+<li>7 Advances Options -> A1 Expand Filesystem</li>
+</ul></li>
+<li>Note: The first time connecting to NanoDLP, you may have to do it via 
+ethernet. After connecting via ethernet the first time, NanoDLP can be accessed
+over wifi via the static ethernet IP address: XXX.XXX.12.200</li>
+<li>After the pi reboots and NanoDLP begins running (note the black screen), 
+go to https://www.nanodlp.com/dashboard on your personal computer to find the IP
+address assigned to the pi. The NanoDLP dashboard can be accessed at this IP
+address. This IP address should be equivalent to the eth0 address: XXX.XXX.12.10</li>
+<li>Connect to NanoDLP through the browser with this IP address, click the wifi 
+button and connect to wifi within the NanoDLP browser.</li>
+<li>After disconnecting the pi from ethernet and restarting, you should be able
+to access the NanoDLP interface on wifi via: XXX.XXX.12.200</li>
+</ul>
+
+<h3>NanoDLP Settings <a name="NanoDLP-Settings"></a></h3>
+
+<ul>
+<li>System -> Machine Settings -> Axis / Movement</li>
+<li>Start of Print Code
+<ul>
+<li>Change <strong>G28</strong> command to <strong>G28 Z0</strong>. If homing is done with the <strong>G28</strong> command than triggering the endstop will kill the printer. The <strong>G28 Z0</strong> command must be used so that homing is done with respect to the Z axis.</li>
+</ul></li>
+<li>Manual Movement Code Template
+<ul>
+<li>Change the line: output = <strong>"G1 Z"+pos+"\r\n";</strong> to: <strong>output = "G1 Z"+pos+"\r F200\n";</strong></li>
+<li>Adding F200 controls the speed with which the motor moves when using manual Z Axis Control. If it is not set to a specific value, the motor will use maximum speed which will over-pulse the motor and cause it to fail.</li>
+</ul></li>
+</ul>
+
+<h3>Projector Setup <a name="Projector-Setup"></a></h3>
+
+<ul>
+<li>Remove UV dissipation lens from projector lamp.
+<ul>
+<li>Unscrew the two screws that are on the sides of the projector next to the lens and the projector fan.</li>
+<li>Use a small edged tool to pry up around the edges of the top casing and slide it forward, sufficient force must be applied unattach the plastic connectors that connect the top casing to the projector.</li>
+<li>Loosen the single screw that connects the lamp to the projector, unplug the lamp power wire, and remove the lamp from the projector.</li>
+<li>Pry off small aluminum case that holds UV dissipation glass in front of the lamp, remove UV dissipation glass.</li>
+<li>Re-install lamp into projector and tighten the single screw until it is very tight.</li>
+</ul></li>
+<li>First power on projector without HDMI attached to change projector settings.
+<ul>
+<li>Basic -> Splash Screen -> Black</li>
+<li>Power Management -> Auto Power On -> Signal HDMI </li>
+<li>Power Management -> Auto Power On -> Signal HDMI </li>
+<li>Power Management -> Auto Power On -> Signal HDMI </li>
+</ul></li>
+<li>Change lens shift so that the projection image is in the middle of the resin vat and not offset.
+<ul>
+<li>Menu -> Lens Shift -> 20</li>
+</ul></li>
+<li>Projector brightness is set to 50 (default).
+<ul>
+<li>For resolution calibration, brightness may be turned down so that calibration grids are easier to look at. Make sure to reset brightness to 50 before printing.</li>
+</ul></li>
+</ul>
+
+<h3>Controlling Projector Power via Pi <a name="Controlling-Projector-Power-via-Pi"></a></h3>
+
+<ul>
+<li>In projector settings enable CEC for control via HDMI cable.</li>
+<li>SSH into pi and run: <strong>sudo apt install cec-utils</strong></li>
+<li>Scan for CEC capable devices: <strong>echo 'scan' | cec-client -s -d 1</strong></li>
+<li>Example turn on device at address 0.0.0.0: <strong>echo 'on 0.0.0.0' | cec-client -s -d 1</strong></li>
+<li>Example turning off device at address 0.0.0.0: <strong>echo 'standby 0.0.0.0 | cec-client -s -d 1</strong></li>
+<li>Note, the current HDMI cord does not support CEC, thus this feature cannot currently be used.</li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Controlling Heater via Pi <a name="Controlling-Heater-via-Pi"></a></h3>
+
+<h4>DHT11 Temperature Sensor Setup</h4>
+
+<ul>
+<li>Wire DHT11 sensor to Raspberry Pi, on the Raspberry Pi pinout:
+<ul>
+<li>Power to Pin 2 (5V power).</li>
+<li>Ground to Pin 6 (GND).</li>
+<li>Input to Pin 7 (GPIO 4).</li>
+</ul></li>
+<li>SSH to the Pi and install the following modules:
+<ul>
+<li><strong>pip3 install adafruit-circuitpython-dht</strong></li>
+<li><strong>sudo apt-get install libgpiod2</strong></li>
+</ul></li>
+<li>Navigate to <strong>/home/pi/</strong> and create a directory for temperature control scripts.
+<ul>
+<li><strong>mkdir temp_ctrl</strong></li>
+<li>cd into the directory and create a python script <strong>temp_ctrl.py</strong></li>
+</ul></li>
+<li>In <strong>temp_ctrl.py</strong> ...</li>
+</ul>
+
+<h4>Electric Heater Setup</h4>
+
+<ul>
+<li>Cut power cord in half.</li>
+<li>Seperate and strip wires, connect two of the wires via solder and cover soldered wire with electrical tape.
+<ul>
+<li>Note that because it is AC there are only two wires and it does not matter which two are connected and which two go into the relay.</li>
+</ul></li>
+<li>Solder extension wires to the two remaining exposed wires, cover the soldered connections with electral tape.
+<ul>
+<li>Connect the remaining two wires to the Common and Normally Open terminals on the relay.</li>
+<li>Use terminal 1, the terminal below the yellow jumper.</li>
+<li>The Common terminal is in the middle, and the Normally Open is the right terminal if the blue relay boxes are pointed towards you.</li>
+</ul></li>
+<li>Connect jumper cables from relay to Pi.
+<ul>
+<li>Connect ground wire from Gnd on the relay to Pin 9 (GND) on the Pi.</li>
+<li>Connect control wire from In1 on the relay to Pin 11 (GPIO 17) on the Pi.</li>
+<li>Connect power wire from Vcc on the relay to Pin 4 (5V power) on the Pi.</li>
+</ul></li>
+<li>SSH to the Pi and install the following modules:
+<ul>
+<li><strong>pip3 install RPi.GPIO</strong></li>
+</ul></li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Mark 1 Software Setup <a name="Mark1-Software-Setup"></a></h3>
+
+<ul>
+<li>Navigate to Mark 1 software directory on local computer.
+<ul>
+<li><strong>/civilization_tech/Mark1/software</strong></li>
+</ul></li>
+<li>Update <strong>~/.vimrc</strong> and <strong>~/.bashrc</strong>.
+<ul>
+<li><strong>scp vimrc.txt bashrc.txt pi@XXX.XXX.12.201:/home/pi/Marlin-2.0.x/Marlin</strong></li>
+<li>Copy the text in <strong>vimrc.txt</strong> into <strong>~/.vimrc</strong>.</li>
+<li>Then, from within vim run: <strong>:source ~/.vimrc</strong>.</li>
+<li>Copy the text in <strong>bashrc.txt</strong> into <strong>~/.bashrc</strong>.</li>
+<li>Then run: <strong>source .bashrc</strong></li>
+</ul></li>
+<li><p>Copy heater control scripts to pi.</p>
+
+<ul>
+<li><strong>scp -r temp_ctrl pi@XXX.XXX.12.201:/home/pi/Marlin-2.0.x/Marlin</strong></li>
+</ul></li>
+<li><p>Install pip packages on pi.</p>
+
+<ul>
+<li><strong>pip install [...]</strong></li>
+<li><strong>time</strong></li>
+<li><strong>board</strong></li>
+<li><strong>adafruit_dht</strong></li>
+</ul></li>
+</ul>
+
+<h2>Manufacturing <a name="Manufacturing"></a></h2>
+
+<h3>General Manufacturing Notes <a name="General-Manufacturing-Notes"></a></h3>
+
+<h4>Drill Bits</h4>
+
+<ul>
+<li>1/8in. or .128in. drill bit for M3 holes.</li>
+<li>5/32in. drill bit for M4 holes.
+<ul>
+<li>11/64in. drill bit if conservative.</li>
+</ul></li>
+<li>13/64in. drill bit for M5 holes.</li>
+<li>.242in. for M6 holes.</li>
+<li>3/32in. or 1/8in. drill bit to prep hole before drilling if using a handheld drill.</li>
+</ul>
+
+<h4>Tapping</h4>
+
+<ul>
+<li>When tapping, always check what the correct hole size to drill is first.</li>
+<li>When tapping, set the tap to max speed and tap using short bursts of power.
+<ul>
+<li>Consider greasing or lubricating the tap before if working with stiffer materials.</li>
+</ul></li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Linear Rail Manufacturing<a name="Linear-Rail-Manufacturing"></a></h3>
+
+<ul>
+<li>(2x) 400mm Linear Rail for top horizontal struts are cut from 400mm to 360mm.</li>
+<li>(2x) 400mm 2040 Double Linear Rail for top vertical struts are cut from 400mm to 350mm.</li>
+<li>Use masking tape to fix linear rail together and cut the linear rail while taped together. This ensures uniform length.</li>
+</ul>
+
+<p><img src="images/linear_extrusion_manufacturing.jpg" width="1000"/></p>
+
+<p><img src="images/upper_frame_2.jpg" width="700"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Resin Vat Manufacturing<a name="Resin-Vat-Manufacturing"></a></h3>
+
+<ul>
+<li>(2x) 1in. x 1in. x 0.125in. angle cut to 440mm length.</li>
+<li>(2x) 1in. x 1in. x 0.125in. angle cut to 160mm length.</li>
+<li>Drill 4 M5 holes for mounting resin vat to frame.</li>
+<li>On left side 160mm angle piece, drill and tap hole for drainage bolt.
+<ul>
+<li>Close to one corner, drill holes with 5/32 in. drill bit.</li>
+<li>Tap hole with 10-24 tap bit. </li>
+</ul></li>
+</ul>
+
+<p><img src="images/resin_vat_manufacturing.jpg" width="1200"/></p>
+
+<p><img src="images/resin_vat_1.jpg" width="1200"/></p>
+
+<p><img src="images/resin_vat_2.jpg" width="1200"/></p>
+
+<p><img src="images/resin_vat_3.jpg" width="1200"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Build Plate Angle Mount Manufacturing<a name="Build-Plate-Angle-Mount-Manufacturing"></a></h3>
+
+<ul>
+<li>(2x) 1.5in. x 1.5in. x 0.125in. angle cut to 410mm length.</li>
+<li>On vertical angle side:
+<ul>
+<li>(2x) Drill 8 M3 holes for mounting angle to linear guide carriages.</li>
+</ul></li>
+<li>On horizontal angle side:
+<ul>
+<li>(2x) Drill 4 M5 holes for mounting build plate strut to build plate angle mount.</li>
+<li>(2x) Drill 4 M3 holes for mounting copper nut to build plate angle mount.</li>
+<li>(2x) Drill 10.2mm hole for copper nut to go through.</li>
+</ul></li>
+</ul>
+
+<p><img src="images/build_plate_angle_mount_manufacturing_vertical.jpg" width="1200"/></p>
+
+<p><img src="images/build_plate_angle_mount_manufacturing_horizontal.jpg" width="1200"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Build Plate Strut Manufacturing <a name="Build-Plate-Strut-Manufacturing"></a></h3>
+
+<ul>
+<li>(2x) 1.5in. x 1in. x 0.125in. angle cut to 270mm length.</li>
+<li>(2x) Drill 4 M5 holes on 1.5in. side for mounting build plate strut to build plate angle mount.</li>
+<li>(2x) Drill 2 M6 holes on 1.5in. side for attaching build plate strut to build plate.
+<ul>
+<li>Drill M6 holes with 17/64in. or similar drill bit. This larger hole makes it easier to insert and remove build plate after prints.</li>
+</ul></li>
+</ul>
+
+<p><img src="images/build_plate_strut_manufacturing.jpg" width="1200"/></p>
+
+<p><img src="images/build_plate_struts.jpg" width="1200"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Build Plate Manufacturing <a name="Build-Plate-Manufacturing"></a></h3>
+
+<ul>
+<li>Cut 0.25in. aluminum sheet to 270mm by 150mm.</li>
+<li>Drill 4 M6 holes for mounting build plate to build plate strut.</li>
+<li>Drill M3 holes around build plate border for resin drainage.</li>
+</ul>
+
+<p><img src="images/build_plate_manufacturing.jpg" width="1200"/></p>
+
+<p><img src="images/build_plate_1.jpg" width="1200"/></p>
+
+<p><img src="images/build_plate_2.jpg" width="1200"/></p>
+
+<p><img src="images/build_plate_3.jpg" width="1200"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>(2x) Motor Mount Plate Manufacturing <a name="Motor-Mount-Plate-Manufacturing"></a></h3>
+
+<ul>
+<li>(2x) Cut 0.125in. aluminum sheet to 440mm by 50mm.</li>
+<li>(2x) Drill 4 M5 holes for mounting motor mount plate to frame.</li>
+<li>(2x) Drill 4 M4 holes for mounting stepper motor mount to motor mount plate.</li>
+</ul>
+
+<p><img src="images/motor_mount_plate_manufacturing.jpg" width="1200"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Projector Backplate Manufacturing <a name="Projector-Backplate-Manufacturing"></a></h3>
+
+<ul>
+<li>Cut 0.125in. aluminum sheet to 440mm by 200mm.</li>
+<li>Drill 4 M5 holes for mounting projector backplate to frame.</li>
+<li>Drill 3 M4 holes for mounting projector to projector backplate.</li>
+<li>Drill 4 2.75mm holes for mounting Raspberry Pi 3B+. </li>
+<li>Drill 3 3.50mm holes for mounting RAMPS 1.4.</li>
+<li>Drill 4 3.50mm holes for mounting relay.</li>
+<li>Drill 1 3.50mm hole for mounting DHT11 temperature sensor.</li>
+<li>Cut 2 M5 slots for magnifying lens mount.</li>
+</ul>
+
+<p><img src="images/projector_backplate_manufacturing.jpg" width="1200"/></p>
+
+<p><img src="images/projector_backplate.jpg" width="1200"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>(4x) Stabilizer Mount Manufacturing <a name="Stabilizer-Mount-Manufacturing"></a></h3>
+
+<ul>
+<li>(4x) Mill 55mm x 20mm x 20mm block out of aluminum or plastic.</li>
+<li>(4x) Drill 2 M5 holes through the 55mm x 20mm face for bolts to pass through.</li>
+<li>Note that for the first build of the mark one, the correct dimensions for the aluminum block were 55mm x 20mm x 23.75mm.
+<ul>
+<li>23.75mm is the thickness of the block on the side that the holes are drilled. </li>
+</ul></li>
+</ul>
+
+<p><img src="images/stabilizer_mount_manufacturing_horizontal.jpg" width="600"/> <img src="images/stabilizer_mount_manufacturing_vertical.jpg" width="600"/></p>
+
+<p><img src="images/stabilizer_mounts_1.jpg" width="1200"/></p>
+
+<p><img src="images/stabilizer_mounts_2.jpg" width="1200"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Endstop Mount Manufacturing <a name="Endstop-Mount-Manufacturing"></a></h3>
+
+<ul>
+<li>Endstop must be positioned slightly below the top of the frame so that it is triggered when the build plate is at its maximum height.</li>
+<li>Measure distance from top of build plate angle mount to top of the frame, cut 0.125in. aluminum sheet to roughly 25mm x the measured height.</li>
+<li>Drill two 13/64in. holes roughly 10mm from one edge of the aluminum mount, these holes will be used to connect the mount to the top of the printer frame via M5 bolts.</li>
+<li>Measure correct position for endstop and mark this level as a straight line on the aluminum mount. Across this line drill two 9/64in. holes that are 20mm apart. These holes are used to connect the endstop to the endstop mount.</li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Lens Holder Manufacturing <a name="Lens-Holder-Manufacturing"></a></h3>
+
+<ul>
+<li>3D print lens holder. If holes are not big enough for an M5 bolt to pass through, expand the holes with a 13/64in. drill bit. </li>
+<li>Center of lens is 80mm from the projector backplate. At this distance the projector light passes through the middle of the lens which distorts the light rays the least.</li>
+<li>Mounting holes are 80 mm apart.</li>
+</ul>
+
+<p><img src="images/lens_holder_ring_manufacturing.jpg" width="700"/>
+<img src="images/lens_holder_arms_manufacturing.jpg" width="700"/></p>
+
+<p><img src="images/lens_holder_base_manufacturing.jpg" width="1400"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Shutter Manufacturing <a name="Shutter-Manufacturing"></a></h3>
+
+<ul>
+<li>Aluminum Sheet 0.16in x 4in x 10in used.</li>
+<li>Place lens holder on copper sheet and trace outline of lens holder size.</li>
+<li>Draw full shutter outline on copper sheet, account for the distance from the servo motor arm to the projector lens.</li>
+<li>Cut copper sheet around the outline with scissors.</li>
+<li>Drill holes to connect shutter to the servo motor.</li>
+<li>Sand shutter edges and surfaces, clean with isopropyl alcohol (IPA).</li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Hinge Jig Manufacturing <a name="Hinge-Jig-Manufacturing"></a></h3>
+
+<ul>
+<li>1in. x 1in. x 0.125in. angle is cut to 100mm length.</li>
+<li>Drill 6 M5 holes for 3 different hinge spaces (10mm, 13mm, 13.6mm).</li>
+<li>Note that because angle has 3.175mm wall, holes must be offset by 3.175mm.
+<ul>
+<li>When using jig, the wall of the angle will be pressed against the edge of the PVC sheet.</li>
+</ul></li>
+</ul>
+
+<p><img src="images/hinge_jig_manufacturing.jpg" width="800"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Back Panel Manufacturing <a name="Back-Panel-Manufacturing"></a></h3>
+
+<ul>
+<li>0.125in. PVC sheet is cut to 956mm by 446mm.</li>
+<li>Drill 12 M5 for 6 hinges.</li>
+<li>Drill 2 M5 holes to mount lower right side to frame.</li>
+</ul>
+
+<p><img src="images/back_panel_manufacturing.jpg" width="1000"/></p>
+
+<p><img src="images/back_panel.jpg" width="1000"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Side Panel 1 Manufacturing <a name="Side-Panel-1-Manufacturing"></a></h3>
+
+<ul>
+<li>0.125in. PVC sheet is cut to 590mm by 340mm.</li>
+<li>Drill 4 M5 for 2 hinges.</li>
+<li>Drill 2 M5 holes to mount left side to frame.</li>
+</ul>
+
+<p><img src="images/side_panel_1_manufacturing.jpg" width="1000"/></p>
+
+<p><img src="images/side_panel_1.jpg" width="1000"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Side Panel 2 Manufacturing <a name="Side-Panel-2-Manufacturing"></a></h3>
+
+<ul>
+<li>0.125in. PVC sheet is cut to 590mm by 340mm.</li>
+<li>Drill 4 M5 holes for 2 hinges.</li>
+</ul>
+
+<p><img src="images/side_panel_2_manufacturing.jpg" width="1000"/></p>
+
+<p><img src="images/side_panel_2.jpg" width="1000"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>(2x) Side Window Manufacturing <a name="Side-Window-Manufacturing"></a></h3>
+
+<ul>
+<li>0.125in. acrylic sheet is cut to 360mm by 340mm.</li>
+<li>(2x) Drill 4 M5 holes for 2 hinges.</li>
+</ul>
+
+<p><img src="images/side_window_manufacturing.jpg" width="1000"/></p>
+
+<p><img src="images/side_window_1.jpg" width="1000"/></p>
+
+<p><img src="images/side_window_2.jpg" width="1000"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Lower Front Panel Manufacturing <a name="Lower-Front-Panel-Manufacturing"></a></h3>
+
+<ul>
+<li>0.125in. PVC sheet is cut to 593mm by 446mm.</li>
+<li>Drill 4 M5 holes for 2 hinges.</li>
+</ul>
+
+<p><img src="images/lower_front_panel_manufacturing.jpg" width="1000"/></p>
+
+<p><img src="images/lower_front_panel.jpg" width="1000"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Upper Front Panel Manufacturing <a name="Upper-Front-Panel-Manufacturing"></a></h3>
+
+<ul>
+<li>0.125in. PVC sheet is cut to 446mm by 363mm.</li>
+<li>Drill 4 M5 holes to mount sheet to frame.</li>
+</ul>
+
+<p><img src="images/upper_front_panel_manufacturing.jpg" width="1000"/></p>
+
+<p><img src="images/upper_front_panel.jpg" width="1000"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Top Panel Manufacturing <a name="Top-Panel-Manufacturing"></a></h3>
+
+<ul>
+<li>Note that on the first build of the Mark 1, the corner holes that the projector feet pass through did not align correctly. Holes needed to be closer than 13mm from the panel edge.</li>
+<li>0.125in. PVC sheet is cut to 446mm by 340mm.</li>
+<li>Drill 4 M5 holes to mount sheet to tapped holes in the top of the frame.</li>
+</ul>
+
+<p><img src="images/top_panel_manufacturing.jpg" width="1000"/></p>
+
+<p><img src="images/top_panel.jpg" width="1000"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Bottom Panel Manufacturing <a name="Bottom-Panel-Manufacturing"></a></h3>
+
+<ul>
+<li>Note that on the first build of the Mark 1, the corner holes that the projector feet pass through did not align correctly. Holes needed to be closer than 13mm from the panel edge.</li>
+<li>0.125in. PVC sheet is cut to 446mm by 340mm.</li>
+<li>Drill 4 M4 (10-32 threaded bolt) holes for projector feet to pass through. On first build used 13/64in. drill bit for these holes.</li>
+<li>Drill 4 M5 holes to mount sheet to frame.</li>
+</ul>
+
+<p><img src="images/bottom_panel_manufacturing.jpg" width="1000"/></p>
+
+<p><img src="images/bottom_panel.jpg" width="1000"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Decal Manufacturing <a name="Decal-Manufacturing"></a></h3>
+
+<ul>
+<li>Design decals in figma.
+<ul>
+<li>Select any overlapping lines in figma -> right click -> Outline Stroke</li>
+<li>This turns any line with thickness into outlines instead of a single thin line.</li>
+<li>Export decals as SVG files.</li>
+</ul></li>
+<li>In Fusion create a new component.
+<ul>
+<li>Create an outline of the correct extrusion shape and extrude this shape 1mm.</li>
+<li>Insert -> Insert SVG, then cancel the operation before running the same commands again.</li>
+<li>Due to a bug, the second time that the SVG is inserted in Fusion you will have the ability to scale and move the SVG file.</li>
+<li>Scale and move SVG so that it fits over the decal size, extrude away decal sections.</li>
+<li>Right click on the component -> Save as Mesh -> Export as STL.</li>
+</ul></li>
+<li>On 3D printer, shine the decal layer on the bottom of the resin vat with the build plate retracted.
+<ul>
+<li>Shine layer for 10 seconds.</li>
+<li>After decals have been cleaned, place under a flat weighted surface so that they do not curl when drying.</li>
+</ul></li>
+<li>After decals have dried, apply clear epoxy to the back of the decal and adhere decals to the build plate and motor mount plates.
+<ul>
+<li>The layer of epoxy should evenly cover the entire back of the decal or else the transparent decal will end up with spotty coloring.</li>
+</ul></li>
+</ul>
+
+<p><img src="images/motor_mount_decal_manufacturing.jpg" width="800"/></p>
+
+<div style="page-break-after: always;"></div>
+
+<h2>Construction <a name="Construction"></a></h2>
+
+<h3>Resin Vat Construction <a name="Resin-Vat-Construction"></a></h3>
+
+<h4>Adhere FEP Film to Glass</h4>
+
+<ul>
+<li>12in. x 8in. borosilicate glass is already the correct dimension so it does not need to be cut.</li>
+<li>Cut FEP film to 270mm x 150mm.</li>
+<li>Position resin vat over glass and mark where the corners of the vat are, orient the FEP film within the corners appropriately and lay it on the glass.
+<ul>
+<li>Mark slightly outside the corners of the FEP film. These markers serve as guides when applying the FEP film.</li>
+</ul></li>
+<li>Make sure that glass it thoroughly cleaned before applying FEP film.</li>
+<li>On the edge of the FEP film, one side of the edge is slightly rough. This side is the adhesive side (release liner) side of the film.</li>
+<li>Use knife or razor blade then tweezers to slightly peel one corner. Note that all parts of the adhesive that are touched will be compromised so touch as little of the corner as possible.</li>
+<li>Align exposed corner of the FEP film with the top left corner marker and begin FEP application process.
+<ul>
+<li>Peel away a small corner of the release liner from under the FEP, then press down evenly across the FEP film with a tissue from the top to adhere it to the glass.</li>
+<li>Always peel the FEP film away at the same angle (roughly 45 degrees).</li>
+<li>Peel small amounts of the adhesive backing at a time to avoid the creation of air bubbles.</li>
+<li>After a small amount of FEP has been peeled, begin gently pressing down over a region that is already been adhered to the glass before slowly working the pressure towards the newly exposed FEP film.</li>
+<li>Always keep tension on the non-adhered portion of the FEP film.</li>
+<li>Air bubbles form when exposed FEP that is not immediately to the right of the already adhered portion makes contact with the glass. The above two steps are meant to prevent this.</li>
+</ul></li>
+</ul>
+
+<h4>Construct Resin Vat</h4>
+
+<ul>
+<li>Mark areas where angle intersect, then apply adhesive sealant to all surfaces that will make contact.</li>
+<li>Press angle together and orient correctly so that the vat forms 90 degree angles and angle pieces are even.
+<ul>
+<li>Make sure that the shorter walls are vertically aligned and not tilting inwards.</li>
+</ul></li>
+<li>Use a flat end stick to press sealent into corners.</li>
+<li>Set curing position by pressing all four sides of the vat with heavy objects. Make sure that the curing position is correct.</li>
+<li>Use isopropyl alcohol to clean excessive adhesive that may have accidentally rubbed on the vat.</li>
+<li>Leave to cure for at least 12 hours.</li>
+</ul>
+
+<p><img src="images/resin_vat_construction.jpg" width="1200"/></p>
+
+<h4>Adhere Glass to Resin Vat</h4>
+
+<ul>
+<li>Lay glass on resin vat and draw outline of glass to mark the boundary of where adhesive sealant goes.</li>
+<li>Between outline and inside of resin vat, lay a thick bead of adhesive sealant.
+<ul>
+<li>Adhesive bead must be thick and continuous to create a full seal.</li>
+<li>Do not lay the bead close to the resin vat inside edge to avoid covering FEP film or blocking the build plate when bead is compressed.</li>
+</ul></li>
+<li>Align glass with outline and gently lay it on the adhesive sealant bead. Let gravity begin the sealing process. Gently press out any air bubbles after. </li>
+<li>Leave to cure for at least 12 hours.</li>
+<li>Adhesive sealant that is stuck to the glass can be removed with isopropyl alcohol (IPA). IPA will leave a smudge on the glass that can be rubbed out by rubbing on it with a paper towel or tissue paper for an extended period of time.</li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Frame Construction <a name="Frame-Construction"></a></h3>
+
+<h4>Lower Frame Section</h4>
+
+<ul>
+<li>Tap 600mm linear rail pieces and attach threaded feet.
+<ul>
+<li>Use 10-32 tap. To prevent bit from getting stuck while tapping, drill in short bursts.</li>
+</ul></li>
+<li>Build lower frame rectangles made of 600mm and 400mm linear rail.
+<ul>
+<li>Use M4 x 16mm bolts for connecting stepper motor mounts to motor mount plates.</li>
+<li>Optionally place M4 nuts and washers between the motor mount and motor mount plates to align the stepper motor with the linear drive rod.</li>
+<li>Note that both linear drive rods must be perfectly vertical. Nuts and washers provide slight adjustments to the stepper motor position.</li>
+<li>Use clear epoxy to adhere motor mount decal to motor mount plate.</li>
+<li>Attach stepper motors to stepper motor mounts, make sure that wires are facing the correct direction.</li>
+<li>Use M5 x 8mm bolts to connect motor mount plates to frame.</li>
+<li>Attach magnets to the lower frame section before constructing frame.</li>
+</ul></li>
+<li>Attach 300mm linear rail to lower frame rectangle to construct lower frame.
+<ul>
+<li>Before attaching 300mm linear rail, put in T-nuts for holding gussets, the resin vat, and a magnet.</li>
+</ul></li>
+<li>Attach lower stabilizer mounts to linear rail using M4 x 30mm bolts.</li>
+</ul>
+
+<p><img src="images/stepper_motors_1.jpg" width="1000"/></p>
+
+<p><img src="images/stepper_motors_2.jpg" width="1000"/></p>
+
+<h4>Upper Frame Section</h4>
+
+<ul>
+<li>Attach linear guides to 400mm double linear rail. </li>
+<li>Attach 400mm double linear rail vertically.</li>
+<li>Attach upper stabilizer mounts to linear rail using M4 x 30mm bolts.</li>
+<li>Tap outer corner holes in the double linear rail for mounting the top panel.
+<ul>
+<li>Tap with a M5 tap bit.</li>
+</ul></li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Internals Construction <a name="Internals-Construction"></a></h3>
+
+<h4>Build Plate, Strut, and Angle Mount Construction</h4>
+
+<ul>
+<li>Use M3 x 10mm bolts and nuts to attach copper nuts to build plate angle mounts.</li>
+<li>Use M3 x 6mm bolts to mount build plate angle mounts to linear guide carriages.</li>
+<li>Feed linear guide rods through stabilizer mounts and copper nut, connect to stepper motor.</li>
+<li>Use M5 x 8mm bolts to connect build plate struts to build plate angle mounts.</li>
+</ul>
+
+<h4>Build Plate Construction</h4>
+
+<ul>
+<li>Sand build plate with 80 grit sandpaper. Sand in one direction.</li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h3>Panel Construction <a name="Panel-Construction"></a></h3>
+
+<ul>
+<li>When drilling holes in the panel with the use of the hinge jig, first drill through the PVC with a small drillbit after pounding the desired hole location.
+<ul>
+<li>This ensures that larger M5 holes do not deviate from the location that was pounded into the PVC.</li>
+<li>Use a 3/32 in. bit or similar.</li>
+</ul></li>
+</ul>
+
+<h4>Bottom Panel Construction</h4>
+
+<ul>
+<li>Once the bottom panel has been manufactured, attach it to the bottom of the frame with M5 bolts and the projector feet.</li>
+<li>Place Power Strip and Power Supply in their desired locations on the bottom panel, use marker to mark the position of the bolts that will mount these parts to the bottom panel.</li>
+<li>Measure and drill triangular bolt pattern on the electric heater side.
+<ul>
+<li>Bolt pattern is a triangle with side lengths 100mm and 40mm.</li>
+</ul></li>
+<li>Draw bolt pattern on the bottom panel.</li>
+<li>Drill M3 holes to mount the Power Strip, M4 holes to mount the Power Supply, and M4 holes to mount electric heater</li>
+</ul>
+
+<h4>Rest of Panels Construction</h4>
+
+<ul>
+<li>Measure and mark hole locations on the back panel first. The marks on this panel will serve as a guide for hole locations on all adjacent panels.
+<ul>
+<li>Note, for M5 holes you can use a 7/32in. drill bit instead of a 13/64in. drill bit to increase the margin for error.</li>
+<li>Note, connect the panels to the frame using thicker T-nuts instead of thin T-nuts that can be placed in linear rail track.</li>
+<li>Mark and drill 0.365in. hole for power strip. 25/64in. drill bit used for drilling hole.</li>
+</ul></li>
+<li>Next mark the hole positions on side panel two. Afterwards align the panel with the back panel to verify that hinge hole placement lines up.</li>
+<li>Repeat the same steps for the side window panels and then side panel one. Finish with the front panels.</li>
+<li>After marking hole locations, pound hole locations using jig.</li>
+<li>Drill holes in the back panel, side panel two, and one of the side windows. Assemble these three panels to the frame to confirm correct manufacturing and construction.</li>
+<li>Afterwards, drill holes in all other panels and assemble all panels to the frame to verify correct construction.
+<ul>
+<li>Note that hinges are attached with the hinge bearing facing inwards.</li>
+</ul></li>
+<li>After confirming that panels fit, remove panels for post-processing.
+<ul>
+<li>De-burr holes, bevel hole openings, sand rough edges, and clean panels.</li>
+</ul></li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h2>Assembly <a name="Assembly"></a></h2>
+
+<h3>Projector Backplate Assembly <a name="Projector-Backplate-Assembly"></a></h3>
+
+<ul>
+<li>Use clear epoxy to adhere backplate decal to the projector backplate.</li>
+<li>Mount projector to backplate with M4 x 12mm bolts.</li>
+<li>Mount Raspberry Pi 3B+ to backplate with M2 x 20mm bolts. 
+<ul>
+<li>Pi must be mounted as far as possible from the backplate for cords to fit.</li>
+</ul></li>
+<li>Mount RAMPS 1.4 to backplate with M3 x 25mm bolts.
+<ul>
+<li>RAMPS 1.4 must be mounted as close as possible to backplate for cords to fit.</li>
+</ul></li>
+<li>Make sure that no pins on either board touch the backplate or the bolts that connect the board to the backplate.</li>
+<li>Attach lens holder to backplate with M5 x 15mm bolts.</li>
+<li>Adhere servo motor to backplate with double sided adhesive foam. 
+<ul>
+<li>Note that the servo motor should be mounted reverse of how it is mounted in the picture below. The servo motor arm should be close to the backplate decal, not close to the lens holder as it is pictured.</li>
+<li>Because the servo motor only has a movement range of 270 degrees, the arm must be close to the backplate decal for the shutter to be able to fully unblock the projector lens.</li>
+</ul></li>
+<li>Construct 12V to 5V LM7805 step down mechanism.
+<ul>
+<li>For each LM7805 voltage regulator (2x) solder a red wire to the positive pin, a black wire to the negative pin, and a white wire to the output pin.</li>
+<li>Solder the two white wires to an additional white wire that has a female connector. This connector is plugged into the 5V pin on the RAMPS 1.4 board.</li>
+</ul></li>
+<li>Perform cable management.</li>
+</ul>
+
+<p><img src="images/assembled_backplate_front.jpg" width="1000"/></p>
+
+<p><img src="images/assembled_backplate_electronics.jpg" width="1000"/></p>
+
+<p><img src="images/assembled_backplate_side.jpg" width="1000"/></p>
+
+<p><img src="images/assembled_backplate_back.jpg" width="1000"/></p>
+
+<h3>Projector Backplate Electronics Assembly <a name="Projector-Backplate-Electronics-Assembly"></a></h3>
+
+<ul>
+<li>Raspberry Pi Model 3B+.
+<ul>
+<li>5V/2.5A black power cable connects to Raspberry Pi Model 3B+.</li>
+<li>Black HDMI cable connects Raspberry Pi to projector.</li>
+<li>Blue USB cable connect Raspberry Pi to RAMPS 1.4 board. Note that this USB cable plugs into the bottom right USB port on the Raspberry Pi. </li>
+<li>DHT11 temperature sensor wires connect to Raspberry Pi GPIO pins. Red wire (5V power) to Pin 2. Brown wire (control) to Pin 7 (GPIO 4). Black wire (ground) to Pin 6.</li>
+</ul></li>
+<li>RAMPS 1.4 Board.
+<ul>
+<li>Solder two wires to the 12V/5A power supply cords to extend them if necessary. Cover soldered wire with electrical tape.</li>
+<li>12V/5A power supply (not pictured) connects to green RAMPS 1.4 terminal blocks. </li>
+<li>Red and black wires connect 12V RAMPS power supply to (2x) LM7805 12V to 5V voltage step downs. The white wire 5V output is connects to the 5V middle pin on the RAMPS 1.4 board.</li>
+<li>Servo motor wires connect stepper motor 1 slot (stepper motor pins closest to the green terminal blocks) to the servo motor. Black wire is closest to the outside of the RAMPS 1.4 board and white wire is closest to the stepper motor driver. Note that this is reversed in the pictures. These pictures are incorrect and the servo motor connector should be the reverse of what it is in the photos. </li>
+<li>(2x) stepper motor wires connect to stepper motor pins located next to the A4988 stepper motor driver. Blue wires are closest to the RAMPS 1.4 terminal blocks.</li>
+<li>Endstop wires connect to Z-max endstop pins which are the 3 pins farthest from the RAMPS 1.4 terminal blocks (just below the 4 pin connector). Red wire is closest to the stepper motor pins and white wire is closest to the edge of the RAMPS 1.4 board.</li>
+</ul></li>
+<li>Relay Module.
+<ul>
+<li>Connect two exposed wires from the heater to the Common and Normally Open terminals on the relay.</li>
+<li>Connect wires to terminal 1, the blue terminal below the yellow jumper.</li>
+<li>The Common terminal is in the middle, and the Normally Open is the right terminal if the blue relay boxes are pointed towards you.</li>
+<li>Power relay wires connect to Raspberry Pi GPIO pins. Red wire (5V power) from VCC to Pin 4. Brown wire (control) from ln1 to Pin 11 (GPIO 17). Black wire (ground) to Pin 9.</li>
+</ul></li>
+</ul>
+
+<p><img src="images/backplate_electronics_1.jpg" width="500"/> <img src="images/backplate_electronics_2.jpg" width="500"/> <img src="images/backplate_electronics_4.jpg" width="500"/> <img src="images/backplate_electronics_3.jpg" width="500"/></p>
+
+<h3>Bottom Panel Assembly <a name="Bottom-Panel-Assembly"></a></h3>
+
+<ul>
+<li>Mount power supply to panel with (2x) M4 x 8mm bolts and (2x) M4 nuts.</li>
+<li>Mount power strip to panel with (4x) M3 x 10mm bolts and (4x) M3 nuts.</li>
+<li>Mount electric heater to panel with (4x) M4 x 20mm bolts and (12x) M4 nuts.
+<ul>
+<li>Use nuts to position electric heater off the ground so that it is not touching the bottom panel.</li>
+</ul></li>
+</ul>
+
+<p><img src="images/assembled_bottom_panel.jpg" width="1200"/></p>
+
+<h3>Full Frame Printer Assembly <a name="Full-Frame-Printer-Assembly"></a></h3>
+
+<p><strong>Assembly order:</strong></p>
+
+<ul>
+<li>Attach linear guides and slide block to linear rail.</li>
+<li>Attach build plate angle mount to linear guides.</li>
+<li>Attach stepper motors to motor mount plates.
+<ul>
+<li>Care that all washers, bolts, and nuts are secure. Check that motor aligns with mount plate.</li>
+</ul></li>
+<li>Loosely attach motor mount plates and stabilizer mounts to frame.</li>
+<li>Lay frame on one side and pass linear guide rod through stabilizer mounts, copper nut, and into stepper motor.</li>
+<li>Align all linear guide rod components so that the linear guide rod is perfectly straight before securing stabilizer mounts and motor mount plate to frame.
+<ul>
+<li>Move build plate angle mount up and down to verify that linear guide rod is straight throughout the whole movement without any bending.</li>
+</ul></li>
+<li>Attach projector backplate to frame.</li>
+<li>Attach bottom panel to frame.</li>
+<li>Connect electronics between projector backplate and bottom panel, perform wire management.</li>
+<li>Attach build plate struts and build plate to linear movement components.</li>
+<li>Attach resin vat to frame.</li>
+</ul>
+
+<h2>Calibration <a name="Calibration"></a></h2>
+
+<h3>Lens Calibration <a name="Lens-Calibration"></a></h3>
+
+<ul>
+<li>Even after measuring build area and calculating resolution, parts are still incorrectly scaled (parts are slightly bigger than designed in CAD, i.e. a 20mm x 20mm square will print as 21mm x 21mm).</li>
+<li>This is addressed by scaling the resolution settings.
+<ul>
+<li>Bigger Resolution -> Smaller Projection Image</li>
+<li>For example, the ideal scaling for the 300mm lens on maximum zoom is 103.5% of the measured resolution.</li>
+</ul></li>
+<li>Optimal scaling may vary by lens focal length and projector zoom. To find the ideal scaling:
+<ul>
+<li>Create a test part with specific dimensions.</li>
+<li>Cover bottom side of the resin vat with cover, project the test part onto the cover.</li>
+<li>Measure the size of the projected image, adjust resolution measurements by the appropriate scaling factor until the projected image is the correct size.</li>
+</ul></li>
+</ul>
+
+<p><strong>300mm lens</strong>
+* Barrel Factor = 0.50
+* Barrel Center X = 960
+* Barrel Center Y = 750 </p>
+
+<ul>
+<li><p>Maximum Zoom</p>
+
+<ul>
+<li>Optimal scaling factor is 103.5%</li>
+<li>6.62in x 3.75in</li>
+<li>168.15mm x 95.25mm (1.765 ratio)</li>
+<li>X res: 168.15mm x 1000 / 1920 = 87.58 micron * 1.035 scaling factor = 90.65 micron</li>
+<li>Y res: 95.25mm x 1000 / 1080 = 88.19 micron * 1.035 scaling factor = 91.28 micron</li>
+</ul></li>
+<li><p>Zoom scroll in middle.</p>
+
+<ul>
+<li>7.52in x 4.19in</li>
+<li>191.01mm x 106.43mm (1.794 ratio)</li>
+<li>X res: 191.01mm x 1000 / 1920 = 99.48 micron</li>
+<li>Y res: 106.43mm x 1000 / 1080 = 98.55 micron</li>
+</ul></li>
+<li><p>Minimum Zoom</p>
+
+<ul>
+<li>8.50in x 4.75in</li>
+<li>215.90mm x 120.65mm (1.789 ratio)</li>
+<li>X res: 215.90mm x 1000 / 1920 = 112.45 micron</li>
+<li>Y res: 120.65mm x 1000 / 1080 = 111.71 micron </li>
+</ul></li>
+</ul>
+
+<p><strong>200mm lens</strong>
+* Barrel Factor = 0.40
+* Barrel Center X = 960
+* Barrel Center Y = 750 </p>
+
+<ul>
+<li>Maximum Zoom
+<ul>
+<li>5.85in x 3.28in</li>
+<li>148.59mm x 83.31mm (1.784 ratio)</li>
+<li>X res: 148.59mm x 1000 / 1920 = 77.39 micron</li>
+<li>Y res: 83.31mm x 1000 / 1080 = 77.14 micron</li>
+</ul></li>
+</ul>
+
+<p><strong>500mm lens</strong>
+* Barrel Factor = 0.05
+* Barrel Center X = 960
+* Barrel Center Y = 750 </p>
+
+<ul>
+<li>Minimum Zoom
+<ul>
+<li>9.03in x 5.14in</li>
+<li>229.36mm x 130.56mm (1.756 ratio)</li>
+<li>X res: 229.36mm x 1000 / 1920 = 119.46 micron</li>
+<li>Y res: 130.56mm x 1000 / 1080 = 120.89 micron</li>
+</ul></li>
+</ul>
+
+<h3>Quality Checks <a name="Quality-Checks"></a></h3>
+
+<h4>Vertical Alignment of Linear Drive Rods</h4>
+
+<ul>
+<li>Both linear drive rods must be perfectly vertical. </li>
+<li>Use calipers to measure the distance between the linear drive rod and the frame in all four sections where the linear guide rod passes in front of the frame.</li>
+<li>Place nuts and washers between the stepper motor mounts and motor mount plates to nudge the stepper motor to the correct distance.
+<ul>
+<li>For the first build of the Mark 1, one M4 nut and two washers were required shift the stepper motor correctly.</li>
+</ul></li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+
+<h2>Specs <a name="Specs"></a></h2>
+
+<h4>Print Size and Resolution</h4>
+
+<ul>
+<li>Max Z Height: 218.8mm</li>
+<li>Max Print Size: 230mm x 130mm @ 120 micron resolution.</li>
+<li>Middle Print Size: 191mm x 107mm @ 99 micron resolution.
+<ul>
+<li>300mm lens with zoom scroll in middle.</li>
+</ul></li>
+<li><p>Minimum Print Size: 150mm x 80mm @ 77 micron resolution.</p></li>
+<li><p>Max Print Volume = 230mm x 130mm x 219mm.</p></li>
+<li><p>Lens is mounted 273mm from resin vat.</p></li>
+</ul>
+
+<h4>Features</h4>
+
+<ul>
+<li>Variable print size, variable resolution.</li>
+<li>Built in heater.</li>
+<li>Variable move speed.</li>
+<li>Variable cure time.</li>
+<li>Variable lift time.</li>
+</ul>
+
+<div style="page-break-after: always;"></div>
+<link rel="stylesheet" href="css/docstyle.css">
