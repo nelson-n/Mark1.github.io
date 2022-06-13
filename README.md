@@ -88,12 +88,8 @@
     * **sudo systemctl disable nanodlp**
     * **sudo systemctl stop nanodlp**
 * **Motor is not making any sound nor responding to any move commands.**
-    * This may occur because the Vref is set to low and the stepper motors are not receiving sufficient voltage.
+    * This may occur because the Vref is set too low and the stepper motors are not receiving sufficient voltage.
     * Resolve this issue by turning the screw on the A4988 (DRV8825)  motor driver clockwise.
-* **Motor is moving slowly, backticking, jittery, or generally exhibiting signs of not receiving enough voltage.**
-    * Sometimes voltage to the motor randomly drops. 
-    * Resolve this issue by touching the volt meter to the Vref screw on the A4988 (DRV8825) stepper motor driver and ground. For some unknown reason this restores the full voltage back to the stepper motor driver.
-    * This may be caused by the motor overheating, especially if a heat gun is sittig below it for an extended period of time.
 * **Z-axis movement is strange. Motor is stalling, distance moved is incorrect, number of pulses per mm is incorrect, etc.**
     * This may be caused by incorrect settings in the marlin configuration.h file that is sourced when NanoDLP boots.
     * To check these default settings, open the RAMPS terminal after launching NanoDLP to check the default G-code that is sourced from configuration.h.
@@ -111,7 +107,7 @@
     * Resolve this issue by assuring that the command **[[WaitForDoneMessage]]** is placed after every move command such as **G28** and **G1** in the G-code.
     * For aditional information on this issue see the **Start of Print Code** documentation.
 * **First layer of print sticks to resin vat instead of build plate.**
-    * Resin may now be warm enough, point heat gun directly at resin to increase resin temperature without overheating electronics.**
+    * Resin may now be warm enough, wait for built-in heater to raise the ambient temperature to the required level.
 
 <div style="page-break-after: always;"></div>
 
@@ -182,8 +178,6 @@
 * This steps per unit value is set by default in configuration.h. It should also be manually set in NanoDLP in the Bootup Code box.
 * Set the default steps per unit value by changing the G-code in the Bootup Code G-code code box and in the Start of Print G-code code box.
     * Both of these boxes can be find in System -> Machine Settings -> Code / Gcode.
-* Note, sometimes the stepper motors randomly change to moving 2mm in response to a 1mm move command. 
-    * If this occurs, change to 200 steps per 1mm with the command: **M92 Z200**
 
 #### Endstop Calibration
 * Endstop calibration setting are inputted into the Start of Print code box.
@@ -289,10 +283,6 @@ all commands are processed correctly
 * The smaller the focal length, the more barrel factor that you need to compensate for image warping.
     * This occurs because smaller focal length -> thicker lens -> more light bending -> more magnification.
 * Optimal barrel factor changes by lens focal length.
-* Because the build plate has no holes in it, when the build plate is very close to glass this creates a suction which can be too powerful for the stepper motors to overcome and stall the motors.
-    * Any stall of the motor ruins the print as the printer subsequently does not know its true Z-axis location.
-    * This can be solved by setting the initial burn in layer higher, lifting very slowly for the first few layers, or adding holes to the build plate.
-    * The suction effect is lessened is the resin is warm.
 * If there are still air bubbles between the build plate and resin vat on the initial burn in layer, you can make the delay before displaying burn in layers arbitrarily long in the resin profile to allow these air bubbles to escape from under the build plate.
 
 <div style="page-break-after: always;"></div>
@@ -300,8 +290,7 @@ all commands are processed correctly
 ### Dimensions<a name="Dimensions"></a>
 * Projector is mounted 273mm from the bottom of the resin vat.
     * Note that this measurement is from the top of the projector (not the lens) to the bottom of the resin vat.
-* The travel of the build plate / maximum print size in the Z dimension is 217.3mm.
-    * Note that the built plate nuts must be supported with tape underneath or else in the process of removing the build plate the nuts will move and the Z-axis travel will change.
+* The travel of the build plate / maximum print size in the Z dimension is ~220mm.
 
 <div style="page-break-after: always;"></div>
 
@@ -365,7 +354,7 @@ all commands are processed correctly
     * 75mm diameter.
 * **500mm Focal Length Convex Lens**
     * 75mm diameter.
-**Aluminum Sheet for Shutter**
+* **Aluminum Sheet for Shutter**
     * Aluminum Sheet 0.16in x 4in x 10in.
 
 ### Resin Vat<a name="Resin-Vat"></a>
@@ -442,7 +431,7 @@ all commands are processed correctly
     * (1x) Front Bottom Panel: 446mm x 593mm.
     * (1x) Front Top Panel: 446mm x 363mm.
     * (2x) Side Bottom Panels: 340mm x 590mm.
-    * (2x) Opaque Side Top Panels: 340mm x 360mm. These panels are not necessary as acrylic is used for side top panels.
+    * (2x) Opaque Side Top Panels: 340mm x 360mm. 
 * **(8x) Hinges**
     * Steel mortise mount hinges with holes, nonremovable pin.
     * Hinge size is X: 2.5", Y: 1.25".
@@ -639,7 +628,7 @@ motor.
     * Extract the downloaded files to: /home/pi
     * Inside the arduino files run **sudo bash install.sh**
 * On local computer (not Raspberry Pi) navigate to the directory where firmware configurations are stored.
-    * /civilization/Mark1/firmware/marlin\_local/Marlin
+    * /marlin\_local/Marlin
     * Copy configuration files from local computer to Raspberry Pi.
     * **scp Configuration.h Configuration_adv.h pi@XXX.XXX.12.201:/home/pi/Marlin-2.0.x/Marlin** 
 * On Raspberry Pi navigate to /home/pi/Marlin-2.0.x/Marlin and double click Marlin.ino.
@@ -663,9 +652,7 @@ Baud Rate to 115200.
     * Move Z-axis position and check that it is spinning in the correct direction.
     * When Z-axis is set to move up, the stepper motor should spin clockwise (to the left).
     * Check Z-axis homing capability. Click the Z home button and then press and hold the endstop to set the Z home.
-    * Note, if you only tap the endstop homing will fail.
     * After homing, move down 2mm in the Z direction and then move 10mm up. On the 10mm up command, the stepper motor should only move 2mm up.
-
 
 * If NanoDLP was previously set up, enable NanoDLP so that it runs on launch.
     * **sudo systemctl enable nanodlp**
@@ -675,7 +662,7 @@ Baud Rate to 115200.
 * From pi, download NanoDLP with wget.
     * **(wget https://www.nanodlp.com/download/nanodlp.linux.arm.rpi.stable.tar.gz --no-check-certificate -O - | tar -C /home/pi -xz --warning=no-timestamp)**
     * **cd /home/pi/printer**
-* Before running **setup.sh**, manually install pigpio as this seems to fail if done via **setup.sh**.
+* Before running **setup.sh**, manually install pigpio.
     * **sudo apt-get install pigpio**
     * If this fails with a locked dpk error, run the following commands.
     * **sudo rm /var/lib/apt/lists/lock**
@@ -751,10 +738,8 @@ to access the NanoDLP interface on wifi via: XXX.XXX.12.200
 * SSH to the Pi and install the following modules:
     * **pip3 install adafruit-circuitpython-dht**
     * **sudo apt-get install libgpiod2**
-* Navigate to **/home/pi/** and create a directory for temperature control scripts.
-    * **mkdir temp\_ctrl**
-    * cd into the directory and create a python script **temp\_ctrl.py**
-* In **temp\_ctrl.py** ...
+* Navigate to **/home/pi/** and create a directory for temperature control scripts called **temp_ctrl**.
+    * Copy temp_ctrl python scripts from repository into the **temp_ctrl** directory.
 
 #### Electric Heater Setup
 * Cut power cord in half.
@@ -775,7 +760,7 @@ to access the NanoDLP interface on wifi via: XXX.XXX.12.200
 
 ### Mark 1 Software Setup <a name="Mark1-Software-Setup"></a>
 * Navigate to Mark 1 software directory on local computer.
-    * **/civilization_tech/Mark1/software**
+    * **/Mark1/software**
 * Update **~/.vimrc** and **~/.bashrc**.
     * **scp vimrc.txt bashrc.txt pi@XXX.XXX.12.201:/home/pi/Marlin-2.0.x/Marlin**
     * Copy the text in **vimrc.txt** into **~/.vimrc**.
@@ -909,8 +894,6 @@ to access the NanoDLP interface on wifi via: XXX.XXX.12.200
 ### (4x) Stabilizer Mount Manufacturing <a name="Stabilizer-Mount-Manufacturing"></a>
 * (4x) Mill 55mm x 20mm x 20mm block out of aluminum or plastic.
 * (4x) Drill 2 M5 holes through the 55mm x 20mm face for bolts to pass through.
-* Note that for the first build of the mark one, the correct dimensions for the aluminum block were 55mm x 20mm x 23.75mm.
-    * 23.75mm is the thickness of the block on the side that the holes are drilled. 
 
 <img src="images/stabilizer_mount_manufacturing_horizontal.jpg" width="600"/> <img src="images/stabilizer_mount_manufacturing_vertical.jpg" width="600"/>
 
@@ -929,7 +912,7 @@ to access the NanoDLP interface on wifi via: XXX.XXX.12.200
 <div style="page-break-after: always;"></div>
 
 ### Lens Holder Manufacturing <a name="Lens-Holder-Manufacturing"></a>
-* 3D print lens holder. If holes are not big enough for an M5 bolt to pass through, expand the holes with a 13/64in. drill bit. 
+* 3d printed lens holder. If holes are not big enough for an M5 bolt to pass through, expand the holes with a 13/64in. drill bit. 
 * Center of lens is 80mm from the projector backplate. At this distance the projector light passes through the middle of the lens which distorts the light rays the least.
 * Mounting holes are 80 mm apart.
 
@@ -1155,7 +1138,7 @@ to access the NanoDLP interface on wifi via: XXX.XXX.12.200
 <div style="page-break-after: always;"></div>
 
 ### Panel Construction <a name="Panel-Construction"></a>
-* When drilling holes in the panel with the use of the hinge jig, first drill through the PVC with a small drillbit after pounding the desired hole location.
+* When drilling holes in the panel with the use of the hinge jig, first drill through the PVC with a small drill bit after pounding the desired hole location.
     * This ensures that larger M5 holes do not deviate from the location that was pounded into the PVC.
     * Use a 3/32 in. bit or similar.
 
@@ -1321,7 +1304,6 @@ to access the NanoDLP interface on wifi via: XXX.XXX.12.200
 * Both linear drive rods must be perfectly vertical. 
 * Use calipers to measure the distance between the linear drive rod and the frame in all four sections where the linear guide rod passes in front of the frame.
 * Place nuts and washers between the stepper motor mounts and motor mount plates to nudge the stepper motor to the correct distance.
-    * For the first build of the Mark 1, one M4 nut and two washers were required shift the stepper motor correctly.
 
 <div style="page-break-after: always;"></div>
 
@@ -1334,16 +1316,9 @@ to access the NanoDLP interface on wifi via: XXX.XXX.12.200
     * 300mm lens with zoom scroll in middle.
 * Minimum Print Size: 150mm x 80mm @ 77 micron resolution.
 
-* Max Print Volume = 230mm x 130mm x 219mm.
+* Max Print Volume = ~ 230mm x 130mm x 220mm.
 
 * Lens is mounted 273mm from resin vat.
-
-#### Features
-* Variable print size, variable resolution.
-* Built in heater.
-* Variable move speed.
-* Variable cure time.
-* Variable lift time.
 
 <div style="page-break-after: always;"></div>
 
