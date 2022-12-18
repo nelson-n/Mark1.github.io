@@ -4,7 +4,7 @@
 # <a href="https://nelson-n.github.io/Mark1.github.io/">Mark 1 Resin 3d Printer</a>
 
 <img src="images/md_title.png" width="750"/>
-<img src="index_images/front_panel_compressed.png" width="1000"/>
+<img src="images/front_panel_cropped.png" width="1000"/>
 
 ### Directory
 
