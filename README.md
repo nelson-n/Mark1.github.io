@@ -79,6 +79,8 @@
 * **If wifi and ssh connection to Raspberry Pi is not working.**
     * Occasionally the Raspberry Pi boots and is unable to connect to the wifi. 
     * Resolve this issue by turning the Pi off, resetting the wifi router, then rebooting the Pi.
+* **If wifi and ssh connection to Raspberry Pi is not working.**
+    * The wifi router may re-assign the Raspberry Pi to a new IP address. Use the tool https://www.nanodlp.com/dashboard to find the newly assigned IP address and change your connection/ssh accordingly.
 * **When manually moving the stepper motors in NanoDLP, the motor moves up or down at full speed ad-infinitum.**
     * This occurs because the motor thinks that it is from far from Z position 0, and the motor tries to quickly zero itself.
     * Resolve this issue by arbitrarily setting the current motor position to 0 with the G-code command: **G92 Z0**
