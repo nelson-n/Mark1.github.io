@@ -1,10 +1,19 @@
 
 [images_path]: images/
 
-# <a href="https://nelson-n.github.io/Mark1.github.io/">Mark 1 Resin 3d Printer</a>
-
 <img src="images/md_title.png" width="750"/>
 <img src="images/front_panel_cropped.png" width="1000"/>
+
+## <a href="https://nelson-n.github.io/Mark1.github.io/">Mark 1 Resin 3d Printer</a>
+
+**Mark 1** is an open-source resin 3d printer capable of printing at variable print size and resolution.
+* Maximum Print Size: 230mm by 130mm at 120 micron resolution with 500mm focal length lens.
+* Medium Print Size: 190mm by 110mm at 100 micron resolution with 300mm focal length lens.
+* Minimum Print Size: 150mm by 80mm at 80 micron resolution with 200mm focal length lens.
+* Max Print Height: 220mm.
+* Sub 3 second layer cure times.
+* Variable move speed, lift speed, and cure time.
+* Quick detach build plate, internal heater with automatic temperature control, automatic lens shutter.
 
 ### Directory
 
