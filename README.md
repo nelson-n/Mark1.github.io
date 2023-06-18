@@ -90,6 +90,7 @@
     * Occasionally the Raspberry Pi boots and is unable to connect to the wifi. 
     * Resolve this issue by turning the Pi off, resetting the wifi router, then rebooting the Pi.
     * If connection problems persist, connect the Raspberry Pi a wifi router via ethernet cable and then try connecting.
+	* Note* that the connection to the Raspberry Pi can be monitored with a simple `ping` command from a terminal/shell.
 * **If wifi and ssh connection to Raspberry Pi is not working.**
     * The wifi router may re-assign the Raspberry Pi to a new IP address. Use the tool https://www.nanodlp.com/dashboard to find the newly assigned IP address and change your connection/ssh accordingly.
 * **Printed object is positioned in the middle of the build plate despite manually moving the object in CAD.**
