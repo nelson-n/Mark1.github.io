@@ -257,7 +257,7 @@ all commands are processed correctly
 
 ### Resin Profile Settings<a name="Resin-Profile-Settings"></a>
 
-Demo resin profiles may be found in `/resin_profiles`. These .json files contain resin profiles for working with Siraya Tech Blu Tough resin in Emerald Blue.
+Demo resin profiles may be found in `/resin_profiles`. These .json files contain resin profiles for working with Siraya Tech Blu Tough Emerald Blue resin. An example .json file with printer machine settings is also available in `/resin_profiles`.
 
 #### Code Before Each Layer
 **G1 Z[[LayerPosition]] F[[ZSpeed]]** Move to next print layer at the speed set in Dynamic Speed. <br>
