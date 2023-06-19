@@ -126,7 +126,8 @@
     * Resin may now be warm enough, wait for built-in heater to raise the ambient temperature to the required level.
 * **You want to adjust the Z-lift height or other esoteric settings of a resin profile.**
     * A number of resin profile settings including Z-lift height and after layer wait time cannot be adjusted using the NanoDLP web interface. The only way to adjust these settings is to manually alter the resin profile .json file.
-    * In general, it is better to edit the .json file of a resin profile than to edit the profile using the NanoDLP web interface as the layout is clearer and offers more control over the settings. 
+    * In general, it is better to edit the .json file of a resin profile than to edit the profile using the NanoDLP web interface as the layout is clearer and offers more control over the settings.
+    * List of possible .json settings: https://docs.nanodlp.com/manual/code/ 
 
 <div style="page-break-after: always;"></div>
 
