@@ -90,7 +90,7 @@
     * Occasionally the Raspberry Pi boots and is unable to connect to the wifi. 
     * Resolve this issue by turning the Pi off, resetting the wifi router, then rebooting the Pi.
     * If connection problems persist, connect the Raspberry Pi a wifi router via ethernet cable and then try connecting.
-	* Note* that the connection to the Raspberry Pi can be monitored with a simple `ping` command from a terminal/shell.
+    * Note that the connection to the Raspberry Pi can be monitored with a simple `ping` command from a terminal/shell.
 * **If wifi and ssh connection to Raspberry Pi is not working.**
     * The wifi router may re-assign the Raspberry Pi to a new IP address. Use the tool https://www.nanodlp.com/dashboard to find the newly assigned IP address and change your connection/ssh accordingly.
 * **Printed object is positioned in the middle of the build plate despite manually moving the object in CAD.**
@@ -124,6 +124,9 @@
     * For aditional information on this issue see the **Start of Print Code** documentation.
 * **First layer of print sticks to resin vat instead of build plate.**
     * Resin may now be warm enough, wait for built-in heater to raise the ambient temperature to the required level.
+* **You want to adjust the Z-lift height or other esoteric settings of a resin profile.**
+    * A number of resin profile settings including Z-lift height and after layer wait time cannot be adjusted using the NanoDLP web interface. The only way to adjust these settings is to manually alter the resin profile .json file.
+    * In general, it is better to edit the .json file of a resin profile than to edit the profile using the NanoDLP web interface as the layout is clearer and offers more control over the settings. 
 
 <div style="page-break-after: always;"></div>
 
@@ -253,6 +256,8 @@ all commands are processed correctly
 <div style="page-break-after: always;"></div>
 
 ### Resin Profile Settings<a name="Resin-Profile-Settings"></a>
+
+Demo resin profiles may be found in `/resin_profiles`. These .json files contain resin profiles for working with Siraya Tech Blu Tough resin in Emerald Blue.
 
 #### Code Before Each Layer
 **G1 Z[[LayerPosition]] F[[ZSpeed]]** Move to next print layer at the speed set in Dynamic Speed. <br>
